@@ -1,0 +1,34 @@
+{
+    "blogs": [
+        {
+            "id": 1,
+            "title": "That time I fought Fire Lord Ozai",
+            "body": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto vel modi quasi, expedita suscipit tempore reiciendis repellendus! Beatae sed nemo voluptate, voluptatem repellat ad quos nulla eum?"
+        },
+        {
+            "id": 2,
+            "title": "That time I fought Fire Lord Ozai Part-2",
+            "body": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto vel modi quasi, expedita suscipit tempore reiciendis repellendus! Beatae sed nemo voluptate, voluptatem repellat ad quos nulla eum?"
+        },
+        {
+            "id": 3,
+            "title": "That time I fought Fire Lord Ozai Part-3",
+            "body": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto vel modi quasi, expedita suscipit tempore reiciendis repellendus! Beatae sed nemo voluptate, voluptatem repellat ad quos nulla eum?"
+        },
+        {
+            "id": 4,
+            "title": "That time I fought Fire Lord Ozai Part-4",
+            "body": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto vel modi quasi, expedita suscipit tempore reiciendis repellendus! Beatae sed nemo voluptate, voluptatem repellat ad quos nulla eum?"
+        },
+        {
+            "id": 5,
+            "title": "That time I fought Fire Lord Ozai Part-5",
+            "body": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto vel modi quasi, expedita suscipit tempore reiciendis repellendus! Beatae sed nemo voluptate, voluptatem repellat ad quos nulla eum?"
+        },
+        {
+            "id": 6,
+            "title": "That time I fought Fire Lord Ozai Part-6",
+            "body": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto vel modi quasi, expedita suscipit tempore reiciendis repellendus! Beatae sed nemo voluptate, voluptatem repellat ad quos nulla eum?"
+        }
+    ]
+}
