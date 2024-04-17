@@ -1,13 +1,15 @@
 import Navbar from "../components/Navbar";
 import { SwitchTransition, CSSTransition } from "react-transition-group";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
+import "./styles.css";
 
 export default function Layout() {
+  const location = useLocation();
   return (
     <>
       <Navbar />
       <SwitchTransition>
-        <CSSTransition key={location.pathname} timeout={200} classNames="fade">
+        <CSSTransition timeout={200} classNames="fade" key={location.pathname}>
           <div>
             <Outlet />
           </div>
