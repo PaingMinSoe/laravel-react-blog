@@ -7,14 +7,6 @@ import lightModeIcon from "../assets/light.svg";
 
 export default function Navbar() {
     const {isDark, setIsDark} = useContext(ThemeContext);
-
-    useEffect(() => {
-        if (isDark === true) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    }, [isDark]);
     
     return (
         <nav className='w-full px-2 md:px-20 py-3 flex items-center justify-between shadow-md dark:bg-gray-800 dark:text-white'>
