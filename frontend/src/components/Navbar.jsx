@@ -1,21 +1,44 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import avatar from "../assets/avatar.jpg";
-import { useContext, useEffect } from "react";
+import { useContext, useState } from "react";
 import { ThemeContext } from "../contexts/ThemeContext";
 import darkModeIcon from "../assets/dark.svg";
 import lightModeIcon from "../assets/light.svg";
+import NavButton from "./NavButton";
+import { CSSTransition } from "react-transition-group";
+import SearchModal from "./SearchModal";
 
-export default function Navbar() {
-    const {isDark, setIsDark} = useContext(ThemeContext);
+export default function Navbar({isDark, setIsDark}) {
+    const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const searchValue = params.get('search');
+
+    const [search, setSearch] = useState(searchValue ?? "");
+
+    const handleSearch = () => {
+        console.log(search);
+        setIsSearchModalOpen(false);
+    }
+
     
-    return (
+    return (    
         <nav className='w-full px-2 md:px-20 py-3 flex items-center justify-between shadow-md dark:bg-gray-800 dark:text-white'>
+            <CSSTransition
+                in={isSearchModalOpen}
+                timeout={200}
+                classNames="modal"
+                unmountOnExit
+            >
+                <SearchModal search={search} handleSearch={handleSearch} isDark={isDark} setSearch={setSearch} setIsOpen={setIsSearchModalOpen} />
+            </CSSTransition>
             <div className="md:hidden">
-                <button className='cursor-pointer bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 p-2.5 rounded-lg'>
+                <NavButton>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                     </svg>
-                </button>
+                </NavButton>
             </div>
             <div className='font-bold text-2xl'>
                 AvatarBlog
@@ -40,22 +63,16 @@ export default function Navbar() {
                     <img src={avatar} alt="" className='w-11 rounded-full' />
                 </li>
                 <li className='hidden md:block'>
-                    <button className='cursor-pointer bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 p-2.5 rounded-lg'>
+                    <NavButton onClick={() => setIsSearchModalOpen(true)}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                         </svg>
-                    </button>
+                    </NavButton>
                 </li>
                 <li className='hidden md:block'>
-                    {!isDark && 
-                    <button onClick={() => setIsDark(true)} className='cursor-pointer bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 p-2.5 rounded-lg'>
-                        <img src={darkModeIcon} alt="" />
-                    </button>}
-
-                    {isDark &&
-                    <button onClick={() => setIsDark(false)} className='cursor-pointer bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 p-2.5 rounded-lg'>
-                        <img src={lightModeIcon} alt="" />
-                    </button>}
+                    <button onClick={() => setIsDark(prevDark => !prevDark)} className='cursor-pointer bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 p-2.5 rounded-lg'>
+                        {!isDark ? <img src={darkModeIcon} alt="" /> : <img src={lightModeIcon} alt="" />}
+                    </button>
                 </li>
             </ul>
         </nav>
