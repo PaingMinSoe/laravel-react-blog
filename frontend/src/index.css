@@ -30,19 +30,19 @@ html {
 }
 
 /* Modal CSS Transition */
-.modal-enter .modalContent {
+.modal-enter {
   opacity: 0;
   transform: scale(0.9);
 }
-.modal-enter-active .modalContent {
+.modal-enter-active {
   opacity: 1;
   transform: translateX(0);
   transition: all 0.2s;
 }
-.modal-exit .modalContent {
+.modal-exit {
   opacity: 1;
 }
-.modal-exit-active .modalContent {
+.modal-exit-active {
   opacity: 0;
   transform: scale(0.9);
   transition: all 0.2s;

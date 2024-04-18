@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from "react-router-dom";
 import avatar from "../assets/avatar.jpg";
-import { useContext, useState } from "react";
-import { ThemeContext } from "../contexts/ThemeContext";
+import { useState } from "react";
+import { createPortal } from "react-dom";
 import darkModeIcon from "../assets/dark.svg";
 import lightModeIcon from "../assets/light.svg";
 import NavButton from "./NavButton";
@@ -25,14 +25,17 @@ export default function Navbar({isDark, setIsDark}) {
     
     return (    
         <nav className='w-full px-2 md:px-20 py-3 flex items-center justify-between shadow-md dark:bg-gray-800 dark:text-white'>
-            <CSSTransition
-                in={isSearchModalOpen}
-                timeout={200}
-                classNames="modal"
-                unmountOnExit
-            >
-                <SearchModal search={search} handleSearch={handleSearch} isDark={isDark} setSearch={setSearch} setIsOpen={setIsSearchModalOpen} />
-            </CSSTransition>
+            {
+                createPortal(<CSSTransition
+                    in={isSearchModalOpen}
+                    timeout={200}
+                    classNames="modal"
+                    unmountOnExit
+                >
+                    <SearchModal search={search} handleSearch={handleSearch} isDark={isDark} setSearch={setSearch} setIsOpen={setIsSearchModalOpen} />
+                </CSSTransition>, document.querySelector('#modal'))
+            }
+            
             <div className="md:hidden">
                 <NavButton>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
