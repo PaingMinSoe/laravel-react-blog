@@ -10,27 +10,31 @@ export default function Navbar() {
     
     return (
         <nav className='w-full px-2 md:px-20 py-3 flex items-center justify-between shadow-md dark:bg-gray-800 dark:text-white'>
+            <div className="md:hidden">
+                <button className='cursor-pointer bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 p-2.5 rounded-lg'>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    </svg>
+                </button>
+            </div>
             <div className='font-bold text-2xl'>
                 AvatarBlog
             </div>
             <ul className='flex items-center gap-x-4'>
-                <li>
+                <li className='hidden md:block'>
                     <NavLink to="/">
                         Home
                     </NavLink>
                 </li>
-                <li>
+                <li className='hidden md:block'>
                     <NavLink to="/blogs">
                         Blogs
                     </NavLink>
                 </li>
-                <li>
+                <li className='hidden md:block'>
                     <NavLink to="/create">
                         Create
                     </NavLink>
-                </li>
-                <li>
-
                 </li>
                 <li>
                     <img src={avatar} alt="" className='w-11 rounded-full' />
