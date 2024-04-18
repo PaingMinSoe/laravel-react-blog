@@ -7,9 +7,9 @@ export default function BlogList() {
     let [blogs, setBlogs] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:3000/blogs')
+        fetch('http://localhost:8000/api/blogs')
         .then(res => res.json())
-        .then(data => setBlogs(data));
+        .then(data => setBlogs(data.data));
     }, [setBlogs]);
 
     return (
