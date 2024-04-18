@@ -1,8 +1,10 @@
 import Navbar from "../components/Navbar";
 import { SwitchTransition, CSSTransition } from "react-transition-group";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 export default function Layout() {
+  const location = useLocation();
+
   return (
     <>
       <Navbar />
