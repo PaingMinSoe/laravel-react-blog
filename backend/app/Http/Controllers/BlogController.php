@@ -21,6 +21,9 @@ class BlogController extends Controller
                 return $query->whereIn('category_id', $request->input('categories'));
             });
         })
+        ->when($request->has('search'), function ($query) use ($request) {
+            return $query->where('title', 'like', '%' . $request->input('search') . '%');
+        })
         ->when(!$request->has('limit'), function($query) {
             return $query->paginate(6)->withQueryString();
         });

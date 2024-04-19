@@ -1,4 +1,20 @@
-export default function SearchModal({search, handleSearch, setSearch, setIsOpen}) {
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+
+export default function SearchModal({setIsOpen}) {
+    const navigate = useNavigate();
+
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const searchValue = params.get('search');
+
+    const [search, setSearch] = useState(searchValue ?? "");
+
+    const handleSearch = () => {
+        navigate('/blogs?search='+search);
+        setIsOpen(false);
+    }
+
     let closeModal = (e) => {
         e.preventDefault();
         setIsOpen((prevState) => !prevState);

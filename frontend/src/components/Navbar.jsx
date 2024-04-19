@@ -12,18 +12,6 @@ import { ThemeContext } from "../contexts/ThemeContext";
 export default function Navbar() {
     const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
     const {isDark, setIsDark} = useContext(ThemeContext);
-    const navigate = useNavigate();
-
-    const location = useLocation();
-    const params = new URLSearchParams(location.search);
-    const searchValue = params.get('search');
-
-    const [search, setSearch] = useState(searchValue ?? "");
-
-    const handleSearch = () => {
-        console.log(search);
-        setIsSearchModalOpen(false);
-    }
     
     return (    
         <nav className='w-full px-2 md:px-20 py-3 flex items-center justify-between shadow-md dark:bg-gray-800 dark:text-white'>
@@ -34,7 +22,7 @@ export default function Navbar() {
                     classNames="modal"
                     unmountOnExit
                 >
-                    <SearchModal search={search} handleSearch={handleSearch} isDark={isDark} setSearch={setSearch} setIsOpen={setIsSearchModalOpen} />
+                    <SearchModal setIsOpen={setIsSearchModalOpen} />
                 </CSSTransition>, document.querySelector('#modal'))
             }
             

@@ -1,20 +1,28 @@
 import { useEffect, useState } from 'react'
 import DummyImage from '../assets/aang-redirects-lightning.jpeg'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import axios from "axios";
 
 export default function BlogList({homepage, filters}) {
 
     const [blogs, setBlogs] = useState([]);
 
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+
     useEffect(() => {
         let url = 'http://localhost:8000/api/blogs';
+        let search = params.get('search');
         if (homepage) {
             url += '?limit=3';
         }
 
+        if(search) {
+            url += '?search=' + search;
+        }
+
         if (filters && filters.length > 0) {
-            url += '?';
+            url += search ? '&' : '?';
             filters.map((filter, index) => {
 
                 url += `categories[]=${filter}${(index < filters.length - 1) ? '&' : ''}`;
