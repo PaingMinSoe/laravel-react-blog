@@ -16,14 +16,18 @@ class BlogController extends Controller
         $blogs = Blog::when($request->has('limit'), function ($query) use ($request) {
             return $query->limit($request->input('limit'))->get();
         })
+        // categories filter
         ->when($request->has('categories'), function($query) use ($request) {
             return $query->whereHas('categories', function($query) use ($request) {
                 return $query->whereIn('category_id', $request->input('categories'));
             });
         })
+        // search keyword filter
         ->when($request->has('search'), function ($query) use ($request) {
-            return $query->where('title', 'like', '%' . $request->input('search') . '%');
+            return $query->where('title', 'like', '%' . $request->input('search') . '%')
+                         ->orWhere('body', 'like', '%' . $request->input('search') . '%');
         })
+        // limit for homepage
         ->when(!$request->has('limit'), function($query) {
             return $query->paginate(6)->withQueryString();
         });
