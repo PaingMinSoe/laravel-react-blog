@@ -6,11 +6,13 @@ import axios from "axios";
 export default function BlogList({homepage, filters}) {
 
     const [blogs, setBlogs] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const location = useLocation();
     const params = new URLSearchParams(location.search);
 
     useEffect(() => {
+        setLoading(true);
         let url = 'http://localhost:8000/api/blogs';
         let search = params.get('search');
         if (homepage) {
@@ -31,6 +33,7 @@ export default function BlogList({homepage, filters}) {
 
         axios.get(url)
         .then(({data}) => {
+            setLoading(false);
             setBlogs(data.data);
         })
         .catch((err) => {
@@ -40,7 +43,10 @@ export default function BlogList({homepage, filters}) {
 
     return (
         <>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 p-3">
+            {
+                loading && `Loading...`
+            }
+            {!loading && blogs.length > 1 ? <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 p-3">
                 {
                     blogs.map((item) => (
                         <Link className='flex flex-col border border-gray-700 m-5 md:m-0 rounded-lg shadow-lg overflow-hidden' key={item.id}>
@@ -57,7 +63,7 @@ export default function BlogList({homepage, filters}) {
                         </Link>
                     ))
                 }
-            </div>
+            </div> : <h1 className='text-3xl font-bold'>Nothing to show...</h1>}
         </>
     )
 }

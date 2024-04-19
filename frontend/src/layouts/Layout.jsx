@@ -10,17 +10,8 @@ export default function Layout() {
   // const {isDark} = useContext(ThemeContext);
 
   // const [isDark, setIsDark] = useLocalStorage("isDark", window.matchMedia("(prefers-color-scheme: dark)").matches);
-  const {isDark, setIsDark} = useContext(ThemeContext);
+  // const {isDark} = useContext(ThemeContext);
 
-  useEffect(() => {
-    if (isDark) {
-        localStorage.setItem('isDark', true);
-        document.documentElement.classList.add('dark');
-    } else {
-        localStorage.removeItem('isDark');
-        document.documentElement.classList.remove('dark');
-    }
-  }, [isDark]);
 
   return (
     <>

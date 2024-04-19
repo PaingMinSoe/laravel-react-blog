@@ -14,7 +14,7 @@ export default function Navbar() {
     const {isDark, setIsDark} = useContext(ThemeContext);
     
     return (    
-        <nav className='w-full px-2 md:px-20 py-3 flex items-center justify-between shadow-md dark:bg-gray-800 dark:text-white transition-colors duration-200'>
+        <nav className='w-full px-2 md:px-20 py-3 flex items-center justify-between shadow-md dark:bg-gray-800 dark:text-white'>
             {
                 createPortal(<CSSTransition
                     in={isSearchModalOpen}
