@@ -2,23 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\BlogResource;
-use App\Models\Blog;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
-class BlogController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        $blogs = Blog::orderBy('created_at', 'desc');
-        if ($request->has('limit')) {
-            return BlogResource::collection($blogs->limit($request->input('limit'))->get());
-        } else {
-            return BlogResource::collection($blogs->paginate(6));
-        }
+        //
     }
 
     /**
@@ -40,7 +34,7 @@ class BlogController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Blog $blog)
+    public function show(Category $category)
     {
         //
     }
@@ -48,7 +42,7 @@ class BlogController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Blog $blog)
+    public function edit(Category $category)
     {
         //
     }
@@ -56,7 +50,7 @@ class BlogController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Blog $blog)
+    public function update(Request $request, Category $category)
     {
         //
     }
@@ -64,7 +58,7 @@ class BlogController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Blog $blog)
+    public function destroy(Category $category)
     {
         //
     }
