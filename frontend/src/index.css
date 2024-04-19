@@ -9,6 +9,7 @@ a.active {
 
 html {
   overflow-y: scroll;
+  @apply transition-colors duration-200;
 }
 
 /* Page Fade Transition */

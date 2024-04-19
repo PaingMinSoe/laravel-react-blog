@@ -14,8 +14,10 @@ export default function Layout() {
 
   useEffect(() => {
     if (isDark) {
+        localStorage.setItem('isDark', true);
         document.documentElement.classList.add('dark');
     } else {
+        localStorage.removeItem('isDark');
         document.documentElement.classList.remove('dark');
     }
   }, [isDark]);
