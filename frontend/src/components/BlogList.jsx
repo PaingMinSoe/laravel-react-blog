@@ -2,9 +2,8 @@ import { useEffect, useState } from 'react'
 import DummyImage from '../assets/aang-redirects-lightning.jpeg'
 import { Link } from 'react-router-dom'
 import axios from "axios";
-import { createPortal } from "react-dom";
 
-export default function BlogList({homepage}) {
+export default function BlogList({homepage, filters}) {
 
     const [blogs, setBlogs] = useState([]);
 
@@ -13,6 +12,15 @@ export default function BlogList({homepage}) {
         if (homepage) {
             url += '?limit=3';
         }
+
+        if (filters && filters.length > 0) {
+            url += '?';
+            filters.map((filter, index) => {
+
+                url += `categories[]=${filter}${(index < filters.length - 1) ? '&' : ''}`;
+            });
+        }
+
         axios.get(url)
         .then(({data}) => {
             setBlogs(data.data);
@@ -20,7 +28,7 @@ export default function BlogList({homepage}) {
         .catch((err) => {
             console.error(err);
         })
-    }, [homepage, setBlogs]);
+    }, [homepage, setBlogs, filters]);
 
     return (
         <>

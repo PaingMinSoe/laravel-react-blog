@@ -13,12 +13,19 @@ class BlogController extends Controller
      */
     public function index(Request $request)
     {
-        $blogs = Blog::orderBy('created_at', 'desc');
-        if ($request->has('limit')) {
-            return BlogResource::collection($blogs->limit($request->input('limit'))->get());
-        } else {
-            return BlogResource::collection($blogs->paginate(6));
-        }
+        $blogs = Blog::when($request->has('limit'), function ($query) use ($request) {
+            return $query->limit($request->input('limit'))->get();
+        })
+        ->when($request->has('categories'), function($query) use ($request) {
+            return $query->whereHas('categories', function($query) use ($request) {
+                return $query->whereIn('category_id', $request->input('categories'));
+            });
+        })
+        ->when(!$request->has('limit'), function($query) {
+            return $query->paginate(6)->withQueryString();
+        });
+
+        return BlogResource::collection($blogs);
     }
 
     /**
