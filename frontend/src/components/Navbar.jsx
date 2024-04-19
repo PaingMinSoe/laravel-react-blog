@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import avatar from "../assets/avatar.jpg";
 import { useContext, useState } from "react";
 import { createPortal } from "react-dom";
@@ -12,6 +12,7 @@ import { ThemeContext } from "../contexts/ThemeContext";
 export default function Navbar() {
     const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
     const {isDark, setIsDark} = useContext(ThemeContext);
+    const navigate = useNavigate();
 
     const location = useLocation();
     const params = new URLSearchParams(location.search);
@@ -58,13 +59,15 @@ export default function Navbar() {
                         Blogs
                     </NavLink>
                 </li>
-                <li className='hidden md:block'>
-                    <NavLink to="/create">
-                        Create
-                    </NavLink>
-                </li>
                 <li>
                     <img src={avatar} alt="" className='w-11 rounded-full' />
+                </li>
+                <li className="hidden md:block">
+                    <NavButton onClick={() => navigate('/create')}>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+                    </NavButton>
                 </li>
                 <li className='hidden md:block'>
                     <NavButton onClick={() => setIsSearchModalOpen(true)}>
