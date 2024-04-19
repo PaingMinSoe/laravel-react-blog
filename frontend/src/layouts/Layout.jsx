@@ -3,14 +3,14 @@ import { SwitchTransition, CSSTransition } from "react-transition-group";
 import { Outlet, useLocation } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { ThemeContext } from "../contexts/ThemeContext";
-import useLocalStorage from "use-local-storage";
 
 export default function Layout() {
   const location = useLocation();
 
   // const {isDark} = useContext(ThemeContext);
 
-  const [isDark, setIsDark] = useLocalStorage("isDark", window.matchMedia("(prefers-color-scheme: dark)").matches);
+  // const [isDark, setIsDark] = useLocalStorage("isDark", window.matchMedia("(prefers-color-scheme: dark)").matches);
+  const {isDark, setIsDark} = useContext(ThemeContext);
 
   useEffect(() => {
     if (isDark) {
@@ -22,7 +22,7 @@ export default function Layout() {
 
   return (
     <>
-      <Navbar isDark={isDark} setIsDark={setIsDark} />
+      <Navbar />
       <SwitchTransition>
         <CSSTransition key={location.pathname} timeout={200} classNames="fade">
           <div>

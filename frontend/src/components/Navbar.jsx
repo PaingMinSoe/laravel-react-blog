@@ -1,15 +1,17 @@
 import { NavLink, useLocation } from "react-router-dom";
 import avatar from "../assets/avatar.jpg";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { createPortal } from "react-dom";
 import darkModeIcon from "../assets/dark.svg";
 import lightModeIcon from "../assets/light.svg";
 import NavButton from "./NavButton";
 import { CSSTransition } from "react-transition-group";
 import SearchModal from "./SearchModal";
+import { ThemeContext } from "../contexts/ThemeContext";
 
-export default function Navbar({isDark, setIsDark}) {
+export default function Navbar() {
     const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+    const {isDark, setIsDark} = useContext(ThemeContext);
 
     const location = useLocation();
     const params = new URLSearchParams(location.search);
@@ -21,7 +23,6 @@ export default function Navbar({isDark, setIsDark}) {
         console.log(search);
         setIsSearchModalOpen(false);
     }
-
     
     return (    
         <nav className='w-full px-2 md:px-20 py-3 flex items-center justify-between shadow-md dark:bg-gray-800 dark:text-white'>

@@ -1,10 +1,10 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import useLocalStorage from "use-local-storage";
 
 const ThemeContext = createContext();
 
 const ThemeContextProvider = ({children}) => {
-    const [isDark, setIsDark] = useLocalStorage("isDark", window.matchMedia("(prefers-color-scheme: dark)").matches);
+    const [isDark, setIsDark] = useState(window.matchMedia("(prefers-color-scheme: dark)").matches);
 
     return (
         <ThemeContext.Provider value={{ isDark, setIsDark }}>
