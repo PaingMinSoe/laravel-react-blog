@@ -18,7 +18,7 @@ export default function Navbar() {
             {
                 createPortal(<CSSTransition
                     in={isSearchModalOpen}
-                    timeout={200}
+                    timeout={100}
                     classNames="modal"
                     unmountOnExit
                 >
