@@ -43,7 +43,7 @@ export default function BlogList({homepage, filters}) {
         <>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 p-3">
                 {blogs.map((item) => (
-                    <Link className='flex flex-col border border-gray-700 m-5 md:m-0 rounded-lg shadow-lg overflow-hidden' key={item.id}>
+                    <Link to={`/blogs/${item.id}`} className='flex flex-col border border-gray-700 m-5 md:m-0 rounded-lg shadow-lg overflow-hidden' key={item.id}>
                         <img src={DummyImage} alt="" />
                         <div className='p-2.5 flex-grow'>
                             <h1 className='text-xl font-semibold'>{item.title}</h1>
