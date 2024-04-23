@@ -19,7 +19,8 @@ class BlogResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'body' => $this->body,
-            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+            'author' => $this->user->name,
+            'created_at' => $this->created_at->format('jS F Y'),
         ];
     }
 }

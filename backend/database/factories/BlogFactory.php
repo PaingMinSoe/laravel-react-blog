@@ -18,7 +18,7 @@ class BlogFactory extends Factory
     {
         return [
             'title' => $this->faker->title,
-            'body' => $this->faker->paragraph,
+            'body' => $this->faker->paragraph(50),
         ];
     }
 }
