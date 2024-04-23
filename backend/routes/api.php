@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BlogController;
 use App\Http\Controllers\Api\CategoryController;
 use Illuminate\Http\Request;
@@ -24,3 +25,4 @@ Route::get('blogs', [BlogController::class, 'index']);
 Route::get('blogs/{blog}', [BlogController::class, 'show']);
 
 Route::get('categories', [CategoryController::class, 'index']);
+Route::post('register', [AuthController::class, 'register']);
