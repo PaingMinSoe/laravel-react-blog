@@ -52,7 +52,7 @@ export default function BlogList({homepage, filters}) {
                             </p>
                         </div>
                         <div className='mx-2.5 mb-3'>
-                            <button className='px-4 py-1.5 rounded-lg bg-blue-200 hover:bg-blue-400 dark:bg-blue-600 dark:hover:bg-blue-900 transition-all ease-in'>Read More</button>
+                            <button className='inline-flex items-center px-4 py-2 text-sm font-semibold shadow rounded-md text-white bg-blue-600 hover:bg-blue-800 transition ease-in-out duration-150'>Read More</button>
                         </div>
                     </Link>
                 ))}
