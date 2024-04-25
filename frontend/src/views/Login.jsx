@@ -17,20 +17,21 @@ export default function Login() {
     }
 
     useEffect(() => {
-        if (credentials.email) {
+        if (credentials.email && errors) {
             setErrors(prevErrors => {
                 const {email, ...newErrors} = prevErrors;
                 return newErrors;
             });
         }
 
-        if (credentials.password) {
+        if (credentials.password && errors) {
             setErrors(prevErrors => {
                 const {password, ...newErrors} = prevErrors;
                 return newErrors;
             });
         }
-    }, [credentials]);
+    }, [credentials, errors]);
+
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -42,7 +43,7 @@ export default function Login() {
         .then(() => {
             axios.post("http://localhost:8000/api/login", credentials)
             .then(response => {
-                console.log(response.message);
+                console.log(response);
             })
             .catch(err => {
                 setErrors(err.response.data.errors);
