@@ -1,12 +1,32 @@
-import { useState } from "react"
+import { useState } from "react";
+import axios from "axios";
 
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+        
+        axios.get("http://localhost:8000/sanctum/csrf-cookie", {
+            withCredentials: true,
+            withXSRFToken: true
+        })
+        .then(() => {
+            axios.post("http://localhost:8000/api/login")
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        });
+    }
+
     return (
         <div className="bg-grey-lighter min-h-[calc(100vh-68px)] flex flex-col">
             <div className="container max-w-lg mx-auto flex-1 flex flex-col items-center justify-center px-2">
-                <form className="bg-white px-6 py-8 rounded border dark:border-gray-700 border-gray-200 shadow-md text-black dark:bg-gray-800 dark:text-white w-full">
+                <form onSubmit={handleLogin} className="bg-white px-6 py-8 rounded border dark:border-gray-700 border-gray-200 shadow-md text-black dark:bg-gray-800 dark:text-white w-full">
                     <div className="mb-4 space-y-2 text-center">
                         <h1 className="text-primary font-bold text-3xl">Login</h1>
                         <p className=" text-gray-500">Login and continue your blogging journey!</p>
