@@ -26,3 +26,4 @@ Route::get('blogs/{blog}', [BlogController::class, 'show']);
 
 Route::get('categories', [CategoryController::class, 'index']);
 Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
