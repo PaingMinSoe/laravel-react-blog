@@ -21,8 +21,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('blogs', [BlogController::class, 'index']);
+Route::get('blogs', [BlogController::class, 'index'])->middleware('auth:sanctum');
 Route::get('blogs/{blog}', [BlogController::class, 'show']);
 
 Route::get('categories', [CategoryController::class, 'index']);
 Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
