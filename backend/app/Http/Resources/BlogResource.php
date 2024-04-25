@@ -20,6 +20,7 @@ class BlogResource extends JsonResource
             'title' => $this->title,
             'body' => $this->body,
             'author' => $this->user->name,
+            'categories' => $this->categories->select('id', 'title'),
             'created_at' => $this->created_at->format('jS F Y'),
         ];
     }

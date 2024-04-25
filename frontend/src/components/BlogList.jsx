@@ -47,12 +47,19 @@ export default function BlogList({homepage, filters}) {
                         <img src={DummyImage} alt="" />
                         <div className='p-2.5 flex-grow'>
                             <h1 className='text-xl font-semibold'>{item.title}</h1>
+                            <p className='space-x-2 py-2'>
+                                {
+                                    item.categories.map(category => (
+                                        <span className='inline-block bg-blue-600 text-xs font-bold px-2 py-1 rounded-lg text-white hover:bg-blue-800 transition duration-100 ease-in-out' key={category.id}>{category.title}</span>
+                                    ))
+                                }
+                            </p>
                             <p>
                                 {`${item.body.slice(0,180)} ${item.body.length > 180 ? "..." : ""}`}
                             </p>
                         </div>
                         <div className='mx-2.5 mb-3'>
-                            <button className='inline-flex items-center px-4 py-2 text-sm font-semibold shadow rounded-md text-white bg-blue-600 hover:bg-blue-800 transition ease-in-out duration-150'>Read More</button>
+                            <button className='inline-flex items-center px-3 py-1.5 text-sm font-semibold shadow rounded-md text-white bg-blue-600 hover:bg-blue-800 transition ease-in-out duration-150'>Read More</button>
                         </div>
                     </Link>
                 ))}
