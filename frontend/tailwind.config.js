@@ -9,6 +9,7 @@ export default {
     extend: {
       animation: {
         shake: 'shake 0.35s',
+        fadeIn: 'fadeIn 0.5s ease-in-out',
       },
       keyframes: {
         shake: {
@@ -23,6 +24,14 @@ export default {
           },
           '75%': {
             transform: 'translateX(5px)',
+          }
+        },
+        fadeIn: {
+          '0%': {
+            opacity: 0
+          },
+          '100%': {
+            opacity: 1,
           }
         } 
       }

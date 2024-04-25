@@ -6,6 +6,7 @@ import axios from "axios";
 export default function BlogList({homepage, filters}) {
 
     const [blogs, setBlogs] = useState([]);
+    const [animateBlogs, setAnimateBlogs] = useState(false);
 
     let url = 'http://localhost:8000/api/blogs';
 
@@ -30,9 +31,11 @@ export default function BlogList({homepage, filters}) {
 
 
     useEffect(() => {
+        setAnimateBlogs(false);
         axios.get(url)
         .then(({data}) => {
             setBlogs(data.data);
+            setAnimateBlogs(true);
         })
         .catch((err) => {
             console.error(err);
@@ -41,9 +44,9 @@ export default function BlogList({homepage, filters}) {
 
     return (
         <>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 p-3">
+            <div className={`grid min-h-[calc(100vh-68px)] md:grid-cols-2 lg:grid-cols-3 gap-10 p-3 ${blogs && animateBlogs ? 'animate-fadeIn' : ''}`}>
                 {blogs.map((item) => (
-                    <Link to={`/blogs/${item.id}`} className='flex flex-col border border-gray-700 m-5 md:m-0 rounded-lg shadow-lg overflow-hidden' key={item.id}>
+                    <Link to={`/blogs/${item.id}`} className='flex flex-col border max-h-[500px] border-gray-700 m-5 md:m-0 rounded-lg shadow-lg overflow-hidden' key={item.id}>
                         <img src={DummyImage} alt="" />
                         <div className='p-2.5 flex-grow'>
                             <h1 className='text-xl font-semibold'>{item.title}</h1>
