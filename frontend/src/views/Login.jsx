@@ -7,6 +7,7 @@ export default function Login() {
         password: '',
     });
     const [errors, setErrors] = useState(null);
+    const [animateError, setAnimateError] = useState(false);
 
     const inputChange = (e, key) => {
         e.preventDefault();
@@ -16,26 +17,9 @@ export default function Login() {
         })
     }
 
-    useEffect(() => {
-        if (credentials.email && errors) {
-            setErrors(prevErrors => {
-                const {email, ...newErrors} = prevErrors;
-                return newErrors;
-            });
-        }
-
-        if (credentials.password && errors) {
-            setErrors(prevErrors => {
-                const {password, ...newErrors} = prevErrors;
-                return newErrors;
-            });
-        }
-    }, [credentials, errors]);
-
-
     const handleLogin = (e) => {
         e.preventDefault();
-
+        setAnimateError(false);
         axios.get("http://localhost:8000/sanctum/csrf-cookie", {
             withCredentials: true,
             withXSRFToken: true
@@ -43,10 +27,15 @@ export default function Login() {
         .then(() => {
             axios.post("http://localhost:8000/api/login", credentials)
             .then(response => {
+                setCredentials({
+                    email: '',
+                    password: '',
+                });
                 console.log(response);
             })
             .catch(err => {
                 setErrors(err.response.data.errors);
+                setAnimateError(true);
             });
         });
     }
@@ -66,13 +55,13 @@ export default function Login() {
                         <input 
                             type="text"
                             id="email"
-                            className={`block w-full bg-gray-200 dark:bg-gray-800 border-2 rounded py-2 px-3 mb-3 leading-tight focus:outline-none transition ease-in-out duration-150 ${errors && errors.email ? 'placeholder-red-500 border-red-500' : 'text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-600 focus:border-blue-600 dark:focus:border-blue-600'}`}
+                            className={`block w-full bg-gray-200 dark:bg-gray-800 border-2 rounded py-2 px-3 mb-3 leading-tight focus:outline-none transition ease-in-out duration-150 ${errors && errors.email ? 'placeholder-red-500 border-red-500' : 'text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-600 focus:border-blue-600 dark:focus:border-blue-600'} ${animateError && errors.email ? 'animate-shake' : ''}`}
                             name="email"
                             value={credentials.email}
                             onChange={e => inputChange(e, 'email')}
                             placeholder="Email" />
                         {
-                            errors && errors.email && <div className="flex gap-1.5 items-center w-full text-red-500">
+                            errors && errors.email && <div className={`flex gap-1.5 items-center w-full text-red-500 ${animateError ? 'animate-shake' : ''}`}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
                             </svg>
@@ -87,13 +76,13 @@ export default function Login() {
                         <input 
                             type="password"
                             id="password"
-                            className={`block w-full bg-gray-200 dark:bg-gray-800 border-2 rounded py-2 px-3 mb-3 leading-tight focus:outline-none transition ease-in-out duration-150 ${errors && errors.password ? 'placeholder-red-500 border-red-500' : 'text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-600 focus:border-blue-600 dark:focus:border-blue-600'}`}
+                            className={`block w-full bg-gray-200 dark:bg-gray-800 border-2 rounded py-2 px-3 mb-3 leading-tight focus:outline-none transition ease-in-out duration-150 ${errors && errors.password ? 'placeholder-red-500 border-red-500' : 'text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-600 focus:border-blue-600 dark:focus:border-blue-600'} ${animateError && errors.password ? 'animate-shake' : ''}`}
                             name="password"
                             value={credentials.password}
                             onChange={e => inputChange(e, 'password')}
                             placeholder="Password" />
                         {
-                            errors && errors.password && <div className="flex gap-1.5 items-center w-full text-red-500">
+                            errors && errors.password && <div className={`flex gap-1.5 items-center w-full text-red-500 ${animateError ? 'animate-shake' : ''}`}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
                             </svg>

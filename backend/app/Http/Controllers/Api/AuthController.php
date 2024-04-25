@@ -35,8 +35,12 @@ class AuthController extends Controller
             return response(compact('user', 'token'));
         }
 
-        return response([
-            'message' => 'Incorrect Email or Password',
+        return response()->json([
+            'errors' => [
+                'email' => [
+                    'incorrect Email or Password'
+                ]
+            ]
         ], 422);
     }
 
