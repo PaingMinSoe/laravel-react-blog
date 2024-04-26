@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import DummyImage from '../assets/aang-redirects-lightning.jpeg'
 import { Link, useLocation } from 'react-router-dom'
 import { decode } from "html-entities";
@@ -31,8 +31,7 @@ export default function BlogList({homepage, filters}) {
         });
     }
 
-
-    useEffect(() => {
+    const fetchData = useCallback((url) => {
         setAnimateBlogs(false);
         axios.get(url, {
             headers: {
@@ -48,10 +47,19 @@ export default function BlogList({homepage, filters}) {
         .catch((err) => {
             console.error(err);
         })
-    }, [url]);
+    }, []);
+
+
+    useEffect(() => {
+        fetchData(url);
+    }, [fetchData, url]);
+
+    const handlePagination = (newUrl) => {
+        fetchData(newUrl);
+    }
 
     return (
-        <div>
+        <div className='w-full min-vh-100'>
             <div className={`grid min-h-[calc(100vh-160px)] md:grid-cols-2 lg:grid-cols-3 gap-10 p-3 ${blogs && animateBlogs ? 'animate-fadeIn' : ''}`}>
                 {blogs.map((item) => (
                     <Link to={`/blogs/${item.id}`} className='flex flex-col border max-h-[500px] border-gray-700 m-5 md:m-0 rounded-lg shadow-lg overflow-hidden' key={item.id}>
@@ -82,7 +90,7 @@ export default function BlogList({homepage, filters}) {
                             // return paginationLinks[key];
                             return (
                                 <li key={key}>
-                                    <button disabled={!paginationLinks[key].url} className={`${paginationLinks[key].active ? 'text-blue-600 font-bold' : 'text-gray-800 dark:text-gray-300'} px-4 py-2 border border-gray-400 disabled:text-gray-600 dark:disabled:text-gray-600 ${index === 0 ? 'rounded-l-md' : ''} ${index === Object.keys(paginationLinks).length - 1 ? 'rounded-r-md' : ''}`}>{decode(paginationLinks[key].label)}</button>
+                                    <button onClick={() => handlePagination(paginationLinks[key].url)} disabled={!paginationLinks[key].url} className={`${paginationLinks[key].active ? 'text-blue-600 font-bold' : 'text-gray-800 dark:text-gray-300'} px-4 py-2 border border-gray-400 disabled:text-gray-600 dark:disabled:text-gray-600 ${index === 0 ? 'rounded-l-md' : ''} ${index === Object.keys(paginationLinks).length - 1 ? 'rounded-r-md' : ''}`}>{decode(paginationLinks[key].label)}</button>
                                 </li>
                             )
                         })
