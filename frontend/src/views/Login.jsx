@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 
 export default function Login() {
@@ -48,14 +48,14 @@ export default function Login() {
                         <h1 className="text-primary font-bold text-3xl">Login</h1>
                         <p className=" text-gray-500">Login and continue your blogging journey!</p>
                     </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700 dark:text-gray-400 font-bold mb-2" htmlFor="email">
+                    <div className="group mb-4">
+                        <label className="block group-focus-within:text-blue-600 text-gray-700 dark:text-gray-400 font-bold mb-2 transition ease-in-out duration-150" htmlFor="email">
                             Email
                         </label>
                         <input 
                             type="text"
                             id="email"
-                            className={`block w-full bg-gray-200 dark:bg-gray-800 border-2 rounded py-2 px-3 mb-3 leading-tight focus:outline-none transition ease-in-out duration-150 ${errors && errors.email ? 'placeholder-red-500 border-red-500' : 'text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-600 focus:border-blue-600 dark:focus:border-blue-600'} ${animateError && errors.email ? 'animate-shake' : ''}`}
+                            className={`block w-full bg-gray-200 dark:focus:placeholder-blue-600 dark:bg-gray-800 border-2 rounded py-2 px-3 mb-3 leading-tight focus:outline-none transition ease-in-out duration-150 ${errors && errors.email ? 'placeholder-red-500 border-red-500' : 'text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-600 focus:border-blue-600 dark:focus:border-blue-600'} ${animateError && errors.email ? 'animate-shake' : ''}`}
                             name="email"
                             value={credentials.email}
                             onChange={e => inputChange(e, 'email')}
@@ -69,14 +69,14 @@ export default function Login() {
                         </div>
                         }
                     </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700 dark:text-gray-400 font-bold mb-2" htmlFor="password">
+                    <div className="group mb-4">
+                        <label className="block group-focus-within:text-blue-600 text-gray-700 dark:text-gray-400 font-bold mb-2 transition ease-in-out duration-150" htmlFor="password">
                             Password
                         </label>
                         <input 
                             type="password"
                             id="password"
-                            className={`block w-full bg-gray-200 dark:bg-gray-800 border-2 rounded py-2 px-3 mb-3 leading-tight focus:outline-none transition ease-in-out duration-150 ${errors && errors.password ? 'placeholder-red-500 border-red-500' : 'text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-600 focus:border-blue-600 dark:focus:border-blue-600'} ${animateError && errors.password ? 'animate-shake' : ''}`}
+                            className={`block w-full bg-gray-200 dark:focus:placeholder-blue-600 dark:bg-gray-800 border-2 rounded py-2 px-3 mb-3 leading-tight focus:outline-none transition ease-in-out duration-150 ${errors && errors.password ? 'placeholder-red-500 border-red-500' : 'text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-600 focus:border-blue-600 dark:focus:border-blue-600'} ${animateError && errors.password ? 'animate-shake' : ''}`}
                             name="password"
                             value={credentials.password}
                             onChange={e => inputChange(e, 'password')}
