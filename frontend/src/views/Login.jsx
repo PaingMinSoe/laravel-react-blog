@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
     const [credentials, setCredentials] = useState({
@@ -8,6 +9,7 @@ export default function Login() {
     });
     const [errors, setErrors] = useState(null);
     const [animateError, setAnimateError] = useState(false);
+    const navigate = useNavigate();
 
     const inputChange = (e, key) => {
         e.preventDefault();
@@ -32,6 +34,8 @@ export default function Login() {
                     password: '',
                 });
                 console.log(response);
+                localStorage.setItem('ACCESS_TOKEN', response.data.token);
+                navigate('/');
             })
             .catch(err => {
                 setErrors(err.response.data.errors);
@@ -55,7 +59,7 @@ export default function Login() {
                         <input 
                             type="text"
                             id="email"
-                            className={`block w-full bg-gray-200 dark:focus:placeholder-blue-600 dark:bg-gray-800 border-2 rounded py-2 px-3 mb-3 leading-tight focus:outline-none transition ease-in-out duration-150 ${errors && errors.email ? 'placeholder-red-500 border-red-500' : 'text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-600 focus:border-blue-600 dark:focus:border-blue-600'} ${animateError && errors.email ? 'animate-shake' : ''}`}
+                            className={`block w-full bg-gray-200 dark:focus:placeholder-blue-600 dark:bg-gray-800 border-2 rounded py-2 px-3 mb-3 leading-tight focus:outline-none transition ease-in-out duration-150 ${errors && errors.email ? 'placeholder-red-500 border-red-500' : 'text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-600 focus:border-blue-600 dark:focus:border-blue-600'} ${animateError && errors?.email ? 'animate-shake' : ''}`}
                             name="email"
                             value={credentials.email}
                             onChange={e => inputChange(e, 'email')}
@@ -76,7 +80,7 @@ export default function Login() {
                         <input 
                             type="password"
                             id="password"
-                            className={`block w-full bg-gray-200 dark:focus:placeholder-blue-600 dark:bg-gray-800 border-2 rounded py-2 px-3 mb-3 leading-tight focus:outline-none transition ease-in-out duration-150 ${errors && errors.password ? 'placeholder-red-500 border-red-500' : 'text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-600 focus:border-blue-600 dark:focus:border-blue-600'} ${animateError && errors.password ? 'animate-shake' : ''}`}
+                            className={`block w-full bg-gray-200 dark:focus:placeholder-blue-600 dark:bg-gray-800 border-2 rounded py-2 px-3 mb-3 leading-tight focus:outline-none transition ease-in-out duration-150 ${errors && errors.password ? 'placeholder-red-500 border-red-500' : 'text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-600 focus:border-blue-600 dark:focus:border-blue-600'} ${animateError && errors?.password ? 'animate-shake' : ''}`}
                             name="password"
                             value={credentials.password}
                             onChange={e => inputChange(e, 'password')}

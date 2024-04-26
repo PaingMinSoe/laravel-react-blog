@@ -44,9 +44,6 @@ export default function Blogs() {
         </aside>
         <BlogList filters={filters} />
       </section>
-      <div id="paginations">
-        Pagination Links
-      </div>
     </>
   )
 }

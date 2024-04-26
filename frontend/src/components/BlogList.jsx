@@ -7,6 +7,7 @@ export default function BlogList({homepage, filters}) {
 
     const [blogs, setBlogs] = useState([]);
     const [animateBlogs, setAnimateBlogs] = useState(false);
+    const [paginationLinks, setPaginationLinks] = useState(null);
 
     let url = 'http://localhost:8000/api/blogs';
 
@@ -32,9 +33,15 @@ export default function BlogList({homepage, filters}) {
 
     useEffect(() => {
         setAnimateBlogs(false);
-        axios.get(url)
+        axios.get(url, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
+            }
+        })
         .then(({data}) => {
+            console.log(data);
             setBlogs(data.data);
+            setPaginationLinks(data.links);
             setAnimateBlogs(true);
         })
         .catch((err) => {
@@ -43,7 +50,7 @@ export default function BlogList({homepage, filters}) {
     }, [url]);
 
     return (
-        <>
+        <div>
             <div className={`grid min-h-[calc(100vh-160px)] md:grid-cols-2 lg:grid-cols-3 gap-10 p-3 ${blogs && animateBlogs ? 'animate-fadeIn' : ''}`}>
                 {blogs.map((item) => (
                     <Link to={`/blogs/${item.id}`} className='flex flex-col border max-h-[500px] border-gray-700 m-5 md:m-0 rounded-lg shadow-lg overflow-hidden' key={item.id}>
@@ -67,6 +74,21 @@ export default function BlogList({homepage, filters}) {
                     </Link>
                 ))}
             </div>
-        </>
+            {paginationLinks && <div className='w-full p-3 flex justify-end'>
+                <ul className="inline-flex -space-x-px text-base h-10">
+                    {
+                        Object.keys(paginationLinks).map((key, index) => {
+                            // return paginationLinks[key];
+                            return (
+                                <li key={key}>
+                                    <button className={`px-4 py-2 border text-gray-800 dark:text-gray-300 border-gray-400 ${index === 0 ? 'rounded-l-md' : ''} ${index === Object.keys(paginationLinks).length - 1 ? 'rounded-r-md' : ''}`}>{key}</button>
+                                </li>
+                            )
+                        })
+                    }
+                </ul>
+                
+            </div>}
+        </div>
     )
 }
