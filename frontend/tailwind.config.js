@@ -9,7 +9,7 @@ export default {
     extend: {
       animation: {
         shake: 'shake 0.35s',
-        fadeIn: 'fadeIn 0.5s ease-in-out',
+        fadeIn: 'fadeIn 0.5s ease-in',
       },
       keyframes: {
         shake: {

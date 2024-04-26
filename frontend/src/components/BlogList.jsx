@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import DummyImage from '../assets/aang-redirects-lightning.jpeg'
 import { Link, useLocation } from 'react-router-dom'
+import { decode } from "html-entities";
 import axios from "axios";
 
 export default function BlogList({homepage, filters}) {
@@ -41,7 +42,7 @@ export default function BlogList({homepage, filters}) {
         .then(({data}) => {
             console.log(data);
             setBlogs(data.data);
-            setPaginationLinks(data.links);
+            setPaginationLinks(data.meta.links);
             setAnimateBlogs(true);
         })
         .catch((err) => {
@@ -81,7 +82,7 @@ export default function BlogList({homepage, filters}) {
                             // return paginationLinks[key];
                             return (
                                 <li key={key}>
-                                    <button className={`px-4 py-2 border text-gray-800 dark:text-gray-300 border-gray-400 ${index === 0 ? 'rounded-l-md' : ''} ${index === Object.keys(paginationLinks).length - 1 ? 'rounded-r-md' : ''}`}>{key}</button>
+                                    <button disabled={!paginationLinks[key].url} className={`${paginationLinks[key].active ? 'text-blue-600 font-bold' : 'text-gray-800 dark:text-gray-300'} px-4 py-2 border border-gray-400 disabled:text-gray-600 dark:disabled:text-gray-600 ${index === 0 ? 'rounded-l-md' : ''} ${index === Object.keys(paginationLinks).length - 1 ? 'rounded-r-md' : ''}`}>{decode(paginationLinks[key].label)}</button>
                                 </li>
                             )
                         })
