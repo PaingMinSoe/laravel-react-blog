@@ -18,22 +18,18 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        Category::factory(5)->create();
+        Category::factory(10)->create();
 
-        $user = User::create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => 'password',
-        ]);
+        $users = User::factory(10)->create();
+        $users->each(function ($user) {
+            $blogs = Blog::factory(20)->create([
+                'user_id' => $user->id
+            ]);
 
-        $blogs = Blog::factory(20)->create([
-            'user_id' => $user->id
-        ]);
-
-        $blogs->each(function ($blog) {
-            $categories = Category::inRandomOrder()->take(rand(1,3))->get();
-            $blog->categories()->attach($categories->pluck('id'));
+            $blogs->each(function ($blog) {
+                $categories = Category::inRandomOrder()->take(rand(1,3))->get();
+                $blog->categories()->attach($categories->pluck('id'));
+            });
         });
-
     }
 }

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
     const [credentials, setCredentials] = useState({
@@ -10,6 +11,7 @@ export default function Signup() {
     });
     const [errors, setErrors] = useState(null);
     const [animateError, setAnimateError] = useState(false);
+    const navigate = useNavigate();
 
     const inputChange = (e, key) => {
         e.preventDefault();
@@ -33,6 +35,8 @@ export default function Signup() {
                     password_confirmation: ''
                 });
                 console.log(response);
+                localStorage.setItem('ACCESS_TOKEN', response.data.token);
+                navigate('/');
             })
             .catch(err => {
                 setErrors(err.response.data.errors);
