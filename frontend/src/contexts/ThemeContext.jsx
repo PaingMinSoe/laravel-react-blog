@@ -1,9 +1,9 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect } from "react";
 import useLocalStorage from "use-local-storage";
 
 const ThemeContext = createContext();
 
-const ThemeContextProvider = ({children}) => {
+export const ThemeContextProvider = ({children}) => {
     const [isDark, setIsDark] = useLocalStorage('isDark', window.matchMedia("(prefers-color-scheme: dark)").matches && localStorage.getItem('isDark'));
 
     useEffect(() => {
@@ -22,4 +22,4 @@ const ThemeContextProvider = ({children}) => {
     )
 }
 
-export {ThemeContext, ThemeContextProvider}
+export const useTheme = () => useContext(ThemeContext);
