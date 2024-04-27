@@ -34,7 +34,6 @@ export default function Signup() {
                     password: '',
                     password_confirmation: ''
                 });
-                console.log(response);
                 localStorage.setItem('ACCESS_TOKEN', response.data.token);
                 navigate('/');
             })

@@ -36,7 +36,6 @@ export default function Login() {
                     password: '',
                 });
                 setLoading(false);
-                console.log(response);
                 localStorage.setItem('ACCESS_TOKEN', response.data.token);
                 navigate('/');
             })

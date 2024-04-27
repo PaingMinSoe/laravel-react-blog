@@ -39,7 +39,6 @@ export default function BlogList({homepage, filters}) {
             }
         })
         .then(({data}) => {
-            console.log(data);
             setBlogs(data.data);
             setPaginationLinks(data.meta.links);
             setAnimateBlogs(true);
@@ -87,7 +86,6 @@ export default function BlogList({homepage, filters}) {
                 <ul className="inline-flex -space-x-px text-base h-10">
                     {
                         Object.keys(paginationLinks).map((key, index) => {
-                            // return paginationLinks[key];
                             return (
                                 <li key={key}>
                                     <button onClick={() => handlePagination(paginationLinks[key].url)} disabled={!paginationLinks[key].url} className={`${paginationLinks[key].active ? 'text-blue-600 font-bold' : 'text-gray-800 dark:text-gray-300'} px-4 py-2 border border-gray-400 disabled:text-gray-600 dark:disabled:text-gray-600 ${index === 0 ? 'rounded-l-md' : ''} ${index === Object.keys(paginationLinks).length - 1 ? 'rounded-r-md' : ''}`}>{decode(paginationLinks[key].label)}</button>
