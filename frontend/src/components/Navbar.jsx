@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import avatar from "../assets/avatar.jpg";
 import { useState } from "react";
 import { createPortal } from "react-dom";
@@ -11,11 +11,13 @@ import { useTheme } from "../contexts/ThemeContext";
 
 export default function Navbar() {
     const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+    const [openNav, setOpenNav] = useState(false);
     const {isDark, setIsDark} = useTheme();
+    const navigate = useNavigate();
     
     return (    
         <header>
-            <nav className='w-full px-2 md:px-20 py-3 flex items-center justify-between shadow-md dark:bg-gray-800 dark:text-white'>
+            <nav className='w-full px-2 md:px-20 py-3 flex items-center justify-between shadow-md dark:bg-gray-800 dark:text-white z-10'>
             {
                 createPortal(<CSSTransition
                     in={isSearchModalOpen}
@@ -34,7 +36,9 @@ export default function Navbar() {
                     </NavButton>
                 </div>
                 <div className='font-bold text-2xl'>
-                    AvatarBlog
+                    <Link to="/">
+                        AvatarBlog
+                    </Link>
                 </div>
                 <ul className='flex items-center gap-x-4'>
                     <li className='hidden md:block'>
@@ -47,8 +51,16 @@ export default function Navbar() {
                             Blogs
                         </NavLink>
                     </li>
-                    <li>
-                        <img src={avatar} alt="" className='w-11 rounded-full' />
+                    <li className="relative transiiton-all duration-500 z-10">
+                        <img onClick={() => setOpenNav(prevNav => !prevNav)} src={avatar} alt="" className='w-11 rounded-full' />
+                        <ul className={`absolute w-36 right-0 bg-white dark:bg-gray-800 ${openNav ? 'flex flex-col' : 'hidden'} rounded shadow-lg mt-2 space-y-4`}>
+                            <li className="px-4 py-3 flex items-center">
+                                <NavLink to="/profile">Profile</NavLink>
+                            </li>
+                            <li className="px-4 py-3 flex items-center">
+                                <NavLink to="/dashboard">Dashboard</NavLink>
+                            </li>
+                        </ul>
                     </li>
                     <li className="hidden md:block">
                         <NavButton onClick={() => navigate('/create')}>

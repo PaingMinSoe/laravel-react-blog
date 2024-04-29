@@ -3,6 +3,7 @@ import DummyImage from '../assets/aang-redirects-lightning.jpeg'
 import { Link, useLocation } from 'react-router-dom'
 import { decode } from "html-entities";
 import axios from "axios";
+import { axiosClient } from '../services/axiosClient';
 
 export default function BlogList({homepage, filters}) {
 
@@ -10,7 +11,7 @@ export default function BlogList({homepage, filters}) {
     const [animateBlogs, setAnimateBlogs] = useState(false);
     const [paginationLinks, setPaginationLinks] = useState(null);
 
-    let url = 'http://localhost:8000/api/blogs';
+    let url = '/blogs';
 
     const location = useLocation();
     const params = new URLSearchParams(location.search);
@@ -33,11 +34,7 @@ export default function BlogList({homepage, filters}) {
 
     const fetchData = useCallback((url) => {
         setAnimateBlogs(false);
-        axios.get(url, {
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
-            }
-        })
+        axiosClient.get(url)
         .then(({data}) => {
             setBlogs(data.data);
             setPaginationLinks(data.meta.links);
@@ -45,7 +42,21 @@ export default function BlogList({homepage, filters}) {
         })
         .catch((err) => {
             console.error(err);
-        })
+        });
+
+        // axios.get(url, {
+        //     headers: {
+        //         "Authorization": `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
+        //     }
+        // })
+        // .then(({data}) => {
+        //     setBlogs(data.data);
+        //     setPaginationLinks(data.meta.links);
+        //     setAnimateBlogs(true);
+        // })
+        // .catch((err) => {
+        //     console.error(err);
+        // })
     }, []);
 
 
@@ -59,7 +70,7 @@ export default function BlogList({homepage, filters}) {
 
     return (
         <div className={`w-full ${homepage ? '' : 'min-h-[calc(100vh-160px)]'}`}>
-            <div className={`grid md:grid-cols-2 lg:grid-cols-3 gap-10 p-3 ${blogs && animateBlogs ? 'animate-fadeIn' : ''}`}>
+            {blogs ? <div className={`grid md:grid-cols-2 lg:grid-cols-3 gap-10 p-3 ${blogs && animateBlogs ? 'animate-fadeIn' : ''}`}>
                 {blogs.map((item) => (
                     <Link to={`/blogs/${item.id}`} className='flex flex-col border max-h-[500px] border-gray-700 m-5 md:m-0 rounded-lg shadow-lg overflow-hidden' key={item.id}>
                         <img src={DummyImage} alt="" />
@@ -81,7 +92,10 @@ export default function BlogList({homepage, filters}) {
                         </div>
                     </Link>
                 ))}
-            </div>
+            </div> : <p className='w-full text-center text-2xl font-semibold text-red-600 p-3'>
+                    {`There's nothing here :(((`}
+                </p>
+            }
             {paginationLinks && <div className='w-full p-3 flex justify-end'>
                 <ul className="inline-flex -space-x-px text-base h-10">
                     {

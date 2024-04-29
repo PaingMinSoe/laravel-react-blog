@@ -27,7 +27,7 @@ export default function SearchModal({setIsOpen}) {
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                     </svg>
-                    <input type="text" value={search} onKeyDown={e => e.key === 'Enter' ? handleSearch() : null} onChange={e => setSearch(e.target.value)} placeholder='Search Blog...' className='outline-none px-2 py-2 dark:text-white dark:bg-transparent rounded-lg' />
+                    <input autoFocus type="text" value={search} onKeyDown={e => e.key === 'Enter' ? handleSearch() : null} onChange={e => setSearch(e.target.value)} placeholder='Search Blog...' className='outline-none px-2 py-2 dark:text-white dark:bg-transparent rounded-lg' />
                 </div>
                 <button onClick={handleSearch} className='px-4 py-1.5 rounded-lg bg-blue-200 hover:bg-blue-400 dark:bg-blue-600 dark:hover:bg-blue-900 transition-all ease-in'>
                     Search
