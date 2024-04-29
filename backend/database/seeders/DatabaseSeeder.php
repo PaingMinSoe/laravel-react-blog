@@ -20,9 +20,9 @@ class DatabaseSeeder extends Seeder
 
         Category::factory(10)->create();
 
-        $users = User::factory(10)->create();
+        $users = User::factory(5)->create();
         $users->each(function ($user) {
-            $blogs = Blog::factory(20)->create([
+            $blogs = Blog::factory(10)->create([
                 'user_id' => $user->id
             ]);
 
