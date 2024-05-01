@@ -55,10 +55,10 @@ export default function Navbar() {
                         <img onClick={() => setOpenNav(prevNav => !prevNav)} src={avatar} alt="" className='w-11 rounded-full' />
                         <ul className={`absolute w-36 right-0 bg-white dark:bg-gray-800 ${openNav ? 'flex flex-col' : 'hidden'} rounded shadow-lg mt-2`}>
                             <li className="px-4 py-3 flex items-center">
-                                <NavLink to="/profile">Profile</NavLink>
+                                <NavLink onClick={() => setOpenNav(false)} to="/profile">Profile</NavLink>
                             </li>
                             <li className="px-4 py-3 flex items-center">
-                                <NavLink to="/dashboard">Dashboard</NavLink>
+                                <NavLink onClick={() => setOpenNav(false)} to="/dashboard">Dashboard</NavLink>
                             </li>
                         </ul>
                     </li>
