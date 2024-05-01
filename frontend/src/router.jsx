@@ -30,7 +30,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/signup",
-                element: localStorage.getItem('ACCESS_TOKEN') !== null ? <Navigate to="/" /> : <Signup />
+                element: <Signup />
             },
             {
                 path: '*',

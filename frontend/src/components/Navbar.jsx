@@ -8,6 +8,7 @@ import NavButton from "./NavButton";
 import { CSSTransition } from "react-transition-group";
 import SearchModal from "./SearchModal";
 import { useTheme } from "../contexts/ThemeContext";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Navbar() {
     const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
@@ -15,6 +16,17 @@ export default function Navbar() {
     const {isDark, setIsDark} = useTheme();
     const navigate = useNavigate();
     
+    const { logout, isLoggedIn } = useAuth();
+
+    const handleLogout = async () => {
+        try {
+            await logout();
+            setOpenNav(false);
+        } catch (err) {
+            console.error(err);
+        } 
+    }
+
     return (    
         <header>
             <nav className='w-full px-2 md:px-20 py-3 flex items-center justify-between shadow-md dark:bg-gray-800 dark:text-white z-10'>
@@ -60,6 +72,9 @@ export default function Navbar() {
                             <li className="px-4 py-3 flex items-center">
                                 <NavLink onClick={() => setOpenNav(false)} to="/dashboard">Dashboard</NavLink>
                             </li>
+                            {isLoggedIn && <li className="px-4 py-3 flex items-center">
+                                <button onClick={handleLogout}>Logout</button>
+                            </li>}
                         </ul>
                     </li>
                     <li className="hidden md:block">

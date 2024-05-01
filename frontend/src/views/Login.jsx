@@ -1,8 +1,14 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function Login() {
+    const { login, token } = useAuth();
+
+    if(token) {
+        return <Navigate to="/" />
+    }
+
     const [credentials, setCredentials] = useState({
         email: '',
         password: '',
@@ -11,8 +17,6 @@ export default function Login() {
     const [loading, setLoading] = useState(false);
     const [animateError, setAnimateError] = useState(false);
     const navigate = useNavigate();
-
-    const { login } = useAuth();
 
     const inputChange = (e, key) => {
         e.preventDefault();
@@ -39,30 +43,6 @@ export default function Login() {
             setErrors(err.response.data.errors);
             setAnimateError(true);
         }
-        // setLoading(true);
-        // setAnimateError(false);
-        // axios.get("http://localhost:8000/sanctum/csrf-cookie", {
-        //     withCredentials: true,
-        //     withXSRFToken: true
-        // })
-        // .then(() => {
-        //     axios.post("http://localhost:8000/api/login", credentials)
-        //     .then(response => {
-        //         setCredentials({
-        //             email: '',
-        //             password: '',
-        //         });
-        //         setLoading(false);
-        //         localStorage.setItem('ACCESS_TOKEN', response.data.token);
-        //         navigate('/');
-        //     })
-        //     .catch(err => {
-        //         setErrors(err.response.data.errors);
-        //         setAnimateError(true);
-        //     });
-        // });
-
-
     }
 
     return (

@@ -1,13 +1,14 @@
 import axios from "axios";
-import { createContext, useContext, useReducer, useState } from "react";
+import { axiosClient } from "../services/axiosClient";
+import { createContext, useContext, useReducer } from "react";
 
 
 const AuthReducer = (state, action) => {
     switch (action.type) {
         case 'LOGIN':
-            return {...state, user: action.payload.user, token: action.payload.token};
+            return {...state, user: action.payload.user, token: action.payload.token, isLoggedIn: true};
         case 'LOGOUT':
-            return {...state, user: null, token: null};
+            return {...state, user: null, token: null, isLoggedIn: false};
         default:
             return state;
     }
@@ -15,7 +16,7 @@ const AuthReducer = (state, action) => {
             
 const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(AuthReducer, {user: null, token: null});
+    const [state, dispatch] = useReducer(AuthReducer, {user: null, token: localStorage.getItem('ACCESS_TOKEN'), isLoggedIn: true});
 
     const login = async ({email, password}) => {
         await axios.get("http://localhost:8000/sanctum/csrf-cookie", {
@@ -31,7 +32,9 @@ export const AuthContextProvider = ({ children }) => {
         dispatch({type: 'LOGIN', payload: {user, token}});
     }
 
-    const logout = () => {
+    const logout = async () => {
+        await axiosClient.post('/logout');
+        localStorage.removeItem('ACCESS_TOKEN');
         dispatch({type: 'LOGOUT'});
     }
 

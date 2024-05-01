@@ -1,9 +1,14 @@
-import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function Signup() {
+    const { register, token } = useAuth();
+
+    if(token) {
+        return <Navigate to="/" />
+    }
+
     const [credentials, setCredentials] = useState({
         name: '',
         email: '',
@@ -13,9 +18,8 @@ export default function Signup() {
     const [errors, setErrors] = useState(null);
     const [loading, setLoading] = useState(false);
     const [animateError, setAnimateError] = useState(false);
-    const navigate = useNavigate();
 
-    const { register } = useAuth();
+    const navigate = useNavigate();
 
     const inputChange = (e, key) => {
         e.preventDefault();
@@ -44,24 +48,6 @@ export default function Signup() {
             setErrors(err.response.data.errors);
             setAnimateError(true);
         }
-        // axios.get("http://localhost:8000/sanctum/csrf-cookie")
-        // .then(() => {
-        //     axios.post("http://localhost:8000/api/register", credentials)
-        //     .then(response => {
-        //         setCredentials({
-        //             name: '',
-        //             email: '',
-        //             password: '',
-        //             password_confirmation: ''
-        //         });
-        //         localStorage.setItem('ACCESS_TOKEN', response.data.token);
-        //         navigate('/');
-        //     })
-        //     .catch(err => {
-        //         setErrors(err.response.data.errors);
-        //         setAnimateError(true);
-        //     });
-        // });
     }
 
     return (
