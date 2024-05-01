@@ -35,8 +35,19 @@ export const AuthContextProvider = ({ children }) => {
         dispatch({type: 'LOGOUT'});
     }
 
-    const register = ({username, email, password, password_confirmation}) => {
-        console.log('REGISTER');
+    const register = async ({name, email, password, password_confirmation}) => {
+        await axios.get("http://localhost:8000/sanctum/csrf-cookie");
+
+        const response = await axios.post("http://localhost:8000/api/register", {
+            name,
+            email,
+            password,
+            password_confirmation
+        });
+        const {user, token} = response.data;
+        localStorage.setItem('ACCESS_TOKEN', token);
+
+        dispatch({type: 'LOGIN', payload: {user, token}});
     }
 
     return (

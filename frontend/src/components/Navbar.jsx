@@ -53,7 +53,7 @@ export default function Navbar() {
                     </li>
                     <li className="relative transiiton-all duration-500 z-10">
                         <img onClick={() => setOpenNav(prevNav => !prevNav)} src={avatar} alt="" className='w-11 rounded-full' />
-                        <ul className={`absolute w-36 right-0 bg-white dark:bg-gray-800 ${openNav ? 'flex flex-col' : 'hidden'} rounded shadow-lg mt-2 space-y-4`}>
+                        <ul className={`absolute w-36 right-0 bg-white dark:bg-gray-800 ${openNav ? 'flex flex-col' : 'hidden'} rounded shadow-lg mt-2`}>
                             <li className="px-4 py-3 flex items-center">
                                 <NavLink to="/profile">Profile</NavLink>
                             </li>
