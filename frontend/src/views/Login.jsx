@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Login() {
     const [credentials, setCredentials] = useState({
@@ -12,6 +13,8 @@ export default function Login() {
     const [animateError, setAnimateError] = useState(false);
     const navigate = useNavigate();
 
+    const { login } = useAuth();
+
     const inputChange = (e, key) => {
         e.preventDefault();
         setCredentials(prevCredentials => {
@@ -20,30 +23,47 @@ export default function Login() {
         })
     }
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
         setLoading(true);
         setAnimateError(false);
-        axios.get("http://localhost:8000/sanctum/csrf-cookie", {
-            withCredentials: true,
-            withXSRFToken: true
-        })
-        .then(() => {
-            axios.post("http://localhost:8000/api/login", credentials)
-            .then(response => {
-                setCredentials({
-                    email: '',
-                    password: '',
-                });
-                setLoading(false);
-                localStorage.setItem('ACCESS_TOKEN', response.data.token);
-                navigate('/');
-            })
-            .catch(err => {
-                setErrors(err.response.data.errors);
-                setAnimateError(true);
+        try {
+            await login(credentials);
+            setCredentials({
+                email: '',
+                password: '',
             });
-        });
+            setLoading(false);
+            navigate('/');
+        } catch (err) {
+            setLoading(false);
+            setErrors(err.response.data.errors);
+            setAnimateError(true);
+        }
+        // setLoading(true);
+        // setAnimateError(false);
+        // axios.get("http://localhost:8000/sanctum/csrf-cookie", {
+        //     withCredentials: true,
+        //     withXSRFToken: true
+        // })
+        // .then(() => {
+        //     axios.post("http://localhost:8000/api/login", credentials)
+        //     .then(response => {
+        //         setCredentials({
+        //             email: '',
+        //             password: '',
+        //         });
+        //         setLoading(false);
+        //         localStorage.setItem('ACCESS_TOKEN', response.data.token);
+        //         navigate('/');
+        //     })
+        //     .catch(err => {
+        //         setErrors(err.response.data.errors);
+        //         setAnimateError(true);
+        //     });
+        // });
+
+
     }
 
     return (

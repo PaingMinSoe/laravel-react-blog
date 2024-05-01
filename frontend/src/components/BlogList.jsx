@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react'
 import DummyImage from '../assets/aang-redirects-lightning.jpeg'
 import { Link, useLocation } from 'react-router-dom'
 import { decode } from "html-entities";
-import axios from "axios";
 import { axiosClient } from '../services/axiosClient';
 
 export default function BlogList({homepage, filters}) {
@@ -37,7 +36,7 @@ export default function BlogList({homepage, filters}) {
         axiosClient.get(url)
         .then(({data}) => {
             setBlogs(data.data);
-            setPaginationLinks(data.meta.links);
+            setPaginationLinks(data?.meta?.links);
             setAnimateBlogs(true);
         })
         .catch((err) => {
