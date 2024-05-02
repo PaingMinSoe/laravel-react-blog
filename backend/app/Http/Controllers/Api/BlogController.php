@@ -6,6 +6,7 @@ use App\Models\Blog;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BlogResource;
+use Illuminate\Support\Facades\Auth;
 
 class BlogController extends Controller
 {
@@ -49,7 +50,19 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'title' => 'required|string|unique:blogs,title',
+            'body' => 'required|string',
+            'categories.*' => 'required|string',
+        ]);
+
+        $data['user_id'] = Auth::user()->id;
+
+        Blog::create($data);
+
+        return response()->json([
+            'message' => 'Blog Created Successfully!'
+        ]);
     }
 
     /**
@@ -71,16 +84,30 @@ class BlogController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Blog $blog)
     {
-        //
+        $data = $request->validate([
+            'title' => 'required|string|unique:blogs,title,' . $blog->id,
+            'body' => 'required|string',
+            'categories.*' => 'string',
+        ]);
+
+        $blog->update($data);
+
+        return response()->json([
+            'message' => 'Blog Updated Successfully!'
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Blog $blog)
     {
-        //
+        $blog->delete();
+
+        return response()->json([
+            'message' => 'Blog Deleted Successfully!'
+        ]);
     }
 }
