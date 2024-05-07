@@ -42,7 +42,9 @@ export default function Blogs() {
             }
           </div>
         </aside>
-        <BlogList filters={filters} />
+        <div className="w-full min-h-[calc(100vh-160px)]">          
+          <BlogList filters={filters} />
+        </div>
       </section>
     </>
   )

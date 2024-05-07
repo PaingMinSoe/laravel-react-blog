@@ -68,7 +68,7 @@ export default function BlogList({homepage, filters}) {
     }
 
     return (
-        <div className={`w-full ${homepage ? '' : 'min-h-[calc(100vh-160px)]'}`}>
+        <>
             {blogs ? <div className={`grid md:grid-cols-2 lg:grid-cols-3 gap-10 p-3 ${blogs && animateBlogs ? 'animate-fadeIn' : ''}`}>
                 {blogs.map((item) => (
                     <Link to={`/blogs/${item.id}`} className='flex flex-col border max-h-[500px] border-gray-700 m-5 md:m-0 rounded-lg shadow-lg overflow-hidden' key={item.id}>
@@ -109,6 +109,6 @@ export default function BlogList({homepage, filters}) {
                 </ul>
                 
             </div>}
-        </div>
+        </>
     )
 }
