@@ -4,7 +4,7 @@ import useLocalStorage from "use-local-storage";
 const ThemeContext = createContext();
 
 export const ThemeContextProvider = ({children}) => {
-    const [isDark, setIsDark] = useLocalStorage('isDark', window.matchMedia("(prefers-color-scheme: dark)").matches && localStorage.getItem('isDark'));
+    const [isDark, setIsDark] = useLocalStorage('isDark', window.matchMedia("(prefers-color-scheme: dark)").matches);
 
     useEffect(() => {
         const htmlElement = document.documentElement;
