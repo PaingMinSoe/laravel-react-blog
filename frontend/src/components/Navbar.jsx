@@ -65,16 +65,30 @@ export default function Navbar() {
                     </li>
                     <li className="relative transiiton-all duration-500 z-10">
                         <img onClick={() => setIsOpenAvatarDropdown(prevNav => !prevNav)} src={avatar} alt="" className='w-11 rounded-full' />
-                        <ul className={`absolute w-36 right-0 bg-white dark:bg-gray-800 ${isOpenAvatarDropdown ? 'flex flex-col' : 'hidden'} rounded shadow-lg mt-2`}>
-                            <li className="px-4 py-3 flex items-center">
-                                <NavLink onClick={() => setIsOpenAvatarDropdown(false)} to="/profile">Profile</NavLink>
-                            </li>
-                            <li className="px-4 py-3 flex items-center">
-                                <NavLink onClick={() => setIsOpenAvatarDropdown(false)} to="/dashboard">Dashboard</NavLink>
-                            </li>
-                            {token && <li className="px-4 py-3 flex items-center">
-                                <button onClick={handleLogout}>Logout</button>
-                            </li>}
+                        <ul className={`absolute w-36 right-0 bg-white dark:bg-gray-800 ${isOpenAvatarDropdown ? ' max-h-48' : 'max-h-0 invisible'} flex flex-col transition-all duration-500 ease-in-out rounded shadow-lg mt-2 overflow-hidden`}>
+                            {
+                                token && <>
+                                    <li className="px-4 py-3 flex items-center">
+                                        <NavLink onClick={() => setIsOpenAvatarDropdown(false)} to="/profile">Profile</NavLink>
+                                    </li>
+                                    <li className="px-4 py-3 flex items-center">
+                                        <NavLink onClick={() => setIsOpenAvatarDropdown(false)} to="/dashboard">Dashboard</NavLink>
+                                    </li>
+                                    <li className="px-4 py-3 flex items-center">
+                                        <button onClick={handleLogout}>Logout</button>
+                                    </li>
+                                </>
+                            }
+                            {
+                                !token && <>
+                                    <li className="px-4 py-3 flex items-center">
+                                        <NavLink onClick={() => setIsOpenAvatarDropdown(false)} to="/login">Login</NavLink>
+                                    </li>
+                                    <li className="px-4 py-3 flex items-center">
+                                        <NavLink onClick={() => setIsOpenAvatarDropdown(false)} to="/signup">Signup</NavLink>
+                                    </li>
+                                </>
+                            }
                         </ul>
                     </li>
                     <li className="hidden md:block">

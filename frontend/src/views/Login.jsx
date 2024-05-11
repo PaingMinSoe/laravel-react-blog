@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function Login() {
@@ -101,6 +101,9 @@ export default function Login() {
                         </svg>}
                         Log in
                     </button>
+                    <p className="mt-3 text-gray-600">
+                        Don't have an account? <Link to="/signup" className="text-blue-500 font-medium hover:underline transition-all duration-500 ease-in-out">Sign up</Link> here.
+                    </p>
                 </form>
             </div>
         </div>
