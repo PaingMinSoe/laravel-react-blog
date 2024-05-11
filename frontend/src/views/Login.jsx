@@ -1,13 +1,9 @@
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function Login() {
-    const { login, token } = useAuth();
-
-    if(token) {
-        return <Navigate to="/" />
-    }
+    const { login } = useAuth();
 
     const [credentials, setCredentials] = useState({
         email: '',

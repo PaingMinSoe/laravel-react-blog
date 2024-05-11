@@ -16,7 +16,7 @@ export default function Navbar() {
     const {isDark, setIsDark} = useTheme();
     const navigate = useNavigate();
     
-    const { logout, isLoggedIn } = useAuth();
+    const { logout, token } = useAuth();
 
     const handleLogout = async () => {
         try {
@@ -72,7 +72,7 @@ export default function Navbar() {
                             <li className="px-4 py-3 flex items-center">
                                 <NavLink onClick={() => setOpenNav(false)} to="/dashboard">Dashboard</NavLink>
                             </li>
-                            {isLoggedIn && <li className="px-4 py-3 flex items-center">
+                            {token && <li className="px-4 py-3 flex items-center">
                                 <button onClick={handleLogout}>Logout</button>
                             </li>}
                         </ul>
