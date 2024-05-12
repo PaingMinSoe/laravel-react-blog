@@ -68,7 +68,7 @@ export default function Signup() {
                     />
                     
                     <Input 
-                        type="text"
+                        type="email"
                         label="Email"
                         id="email"
                         name="email"

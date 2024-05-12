@@ -51,7 +51,7 @@ export default function Login() {
                         <p className=" text-gray-500">Login and continue your blogging journey!</p>
                     </div>
                     <Input 
-                        type="text"
+                        type="email"
                         label="Email"
                         id="email"
                         name="email"
