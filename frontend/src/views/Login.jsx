@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import Input from "../components/Input";
 
 export default function Login() {
     const { login } = useAuth();
@@ -49,48 +50,29 @@ export default function Login() {
                         <h1 className="text-primary font-bold text-3xl">Login</h1>
                         <p className=" text-gray-500">Login and continue your blogging journey!</p>
                     </div>
-                    <div className="group mb-4">
-                        <label className="block group-focus-within:text-blue-600 text-gray-700 dark:text-gray-400 font-bold mb-2 transition ease-in-out duration-150" htmlFor="email">
-                            Email
-                        </label>
-                        <input 
-                            type="text"
-                            id="email"
-                            className={`block w-full bg-gray-200 dark:focus:placeholder-blue-600 dark:bg-gray-800 border-2 rounded py-2 px-3 mb-3 leading-tight focus:outline-none transition ease-in-out duration-150 ${errors && errors.email ? 'placeholder-red-500 border-red-500' : 'text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-600 focus:border-blue-600 dark:focus:border-blue-600'} ${animateError && errors?.email ? 'animate-shake' : ''}`}
-                            name="email"
-                            value={credentials.email}
-                            onChange={e => inputChange(e, 'email')}
-                            placeholder="Email" />
-                        {
-                            errors && errors.email && <div className={`flex gap-1.5 items-center w-full text-red-500 ${animateError ? 'animate-shake' : ''}`}>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
-                            </svg>
-                            {errors.email[0]}
-                        </div>
-                        }
-                    </div>
-                    <div className="group mb-4">
-                        <label className="block group-focus-within:text-blue-600 text-gray-700 dark:text-gray-400 font-bold mb-2 transition ease-in-out duration-150" htmlFor="password">
-                            Password
-                        </label>
-                        <input 
-                            type="password"
-                            id="password"
-                            className={`block w-full bg-gray-200 dark:focus:placeholder-blue-600 dark:bg-gray-800 border-2 rounded py-2 px-3 mb-3 leading-tight focus:outline-none transition ease-in-out duration-150 ${errors && errors.password ? 'placeholder-red-500 border-red-500' : 'text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-600 focus:border-blue-600 dark:focus:border-blue-600'} ${animateError && errors?.password ? 'animate-shake' : ''}`}
-                            name="password"
-                            value={credentials.password}
-                            onChange={e => inputChange(e, 'password')}
-                            placeholder="Password" />
-                        {
-                            errors && errors.password && <div className={`flex gap-1.5 items-center w-full text-red-500 ${animateError ? 'animate-shake' : ''}`}>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
-                            </svg>
-                            {errors.password[0]}
-                        </div>
-                        }
-                    </div>
+                    <Input 
+                        type="text"
+                        label="Email"
+                        id="email"
+                        name="email"
+                        value={credentials.email}
+                        onChange={e => inputChange(e, 'email')}
+                        placeholder="Email" 
+                        animateError={animateError}
+                        error={errors?.email}
+                    />
+
+                    <Input 
+                        type="password"
+                        label="Password"
+                        id="password"
+                        name="password"
+                        value={credentials.password}
+                        onChange={e => inputChange(e, 'password')}
+                        placeholder="Password" 
+                        animateError={animateError}
+                        error={errors?.password}
+                    />
                     <button
                         type="submit"
                         className="inline-flex items-center px-4 py-2 font-semibold shadow rounded-md text-white bg-blue-600 hover:bg-blue-800 transition ease-in-out duration-150"
