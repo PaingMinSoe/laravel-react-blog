@@ -5,7 +5,9 @@ export default function Input({ label, animateError, error, ...props }) {
             <label className="block group-focus-within:text-blue-600 text-gray-700 dark:text-gray-400 font-bold mb-2 transition ease-in-out duration-150" htmlFor="name">
                 {label}
             </label>
-            <input {...props} className={classes} />
+            {
+                props.type === 'textarea' ? <textarea className={classes} {...props} /> : <input {...props} className={classes} />
+            }
             {
                 error && <div className={`flex gap-1.5 items-center w-full text-red-500 ${animateError ? 'animate-shake' : ''}`}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
