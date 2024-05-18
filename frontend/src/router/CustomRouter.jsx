@@ -8,6 +8,7 @@ import Signup from "../views/Signup";
 import Profile from "../views/Profile";
 import NotFound from "../views/NotFound";
 import { useAuth } from "../contexts/AuthContext";
+import Create from "../views/Create";
 
 export default function CustomRouter() {
     const { token } = useAuth();
@@ -39,6 +40,10 @@ export default function CustomRouter() {
                 {
                     path: "/profile",
                     element: !token ? <Navigate to="/login" /> : <Profile />
+                },
+                {
+                    path: "/create",
+                    element: !token ? <Navigate to="/login" /> : <Create />
                 },
                 {
                     path: '*',

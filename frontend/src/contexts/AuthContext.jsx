@@ -36,7 +36,7 @@ export const AuthContextProvider = ({ children }) => {
             withXSRFToken: true,
         });
 
-        const response = await axios.post("http://localhost:8000/api/login", {email, password});
+        const response = await axiosClient.post("/login", {email, password});
             
         const {user, token} = response.data;
         localStorage.setItem('ACCESS_TOKEN', token);
@@ -52,7 +52,7 @@ export const AuthContextProvider = ({ children }) => {
     const register = async ({name, email, password, password_confirmation}) => {
         await axios.get("http://localhost:8000/sanctum/csrf-cookie");
 
-        const response = await axios.post("http://localhost:8000/api/register", {
+        const response = await axiosClient.post("/register", {
             name,
             email,
             password,

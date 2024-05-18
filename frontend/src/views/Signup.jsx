@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import Input from "../components/Input";
+import Form from "../components/Form";
 
 export default function Signup() {
     const { register } = useAuth();
@@ -49,8 +50,8 @@ export default function Signup() {
 
     return (
         <div className="bg-grey-lighter min-h-[calc(100vh-68px)] flex flex-col">
-            <div className="container max-w-lg mx-auto flex-1 flex flex-col items-center justify-center px-2">
-                <form onSubmit={handleSignup} method="POST" className="bg-white px-6 py-8 rounded border dark:border-gray-700 border-gray-300 shadow-lg text-black dark:bg-gray-800 dark:text-white w-full">
+            <div className="max-w-lg mx-auto flex-1 flex flex-col items-center justify-center px-2">
+                <Form onSubmit={handleSignup} method="POST">
                     <div className="mb-4 space-y-2 text-center">
                         <h1 className="text-primary font-bold text-3xl">Sign up</h1>
                         <p className=" text-gray-500">Sign up and start your blogging journey!</p>
@@ -115,7 +116,7 @@ export default function Signup() {
                     <p className="mt-3 text-gray-600">
                         Already have an account? <Link to="/login" className="text-blue-500 font-medium hover:underline transition-all duration-500 ease-in-out">Log in</Link> here.
                     </p>
-                </form>
+                </Form>
             </div>
         </div>
     )
