@@ -42,20 +42,6 @@ export default function BlogList({homepage, filters}) {
         .catch((err) => {
             console.error(err);
         });
-
-        // axios.get(url, {
-        //     headers: {
-        //         "Authorization": `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
-        //     }
-        // })
-        // .then(({data}) => {
-        //     setBlogs(data.data);
-        //     setPaginationLinks(data.meta.links);
-        //     setAnimateBlogs(true);
-        // })
-        // .catch((err) => {
-        //     console.error(err);
-        // })
     }, []);
 
 
