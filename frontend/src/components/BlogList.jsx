@@ -35,7 +35,7 @@ export default function BlogList({homepage, filters}) {
         setAnimateBlogs(false);
         axiosClient.get(url)
         .then(({data}) => {
-            setBlogs(data.data);
+            setBlogs(data);
             setPaginationLinks(data?.meta?.links);
             setAnimateBlogs(true);
         })
