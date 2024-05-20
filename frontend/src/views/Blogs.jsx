@@ -9,7 +9,7 @@ export default function Blogs() {
   useEffect(() => {
     axios.get('http://localhost:8000/api/categories')
     .then(({data}) => {
-      setCategories(data);
+      setCategories(data.data);
     })
     .catch((err) => {
       console.error(err)

@@ -10,7 +10,7 @@ export default function BlogDetails() {
   useEffect(() => {
     axios.get(`http://localhost:8000/api/blogs/${id}`)
     .then(({data}) => {
-      setBlog(data);
+      setBlog(data.data);
     })
   }, [id]);
 

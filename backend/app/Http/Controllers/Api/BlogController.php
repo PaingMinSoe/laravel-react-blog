@@ -53,12 +53,16 @@ class BlogController extends Controller
         $data = $request->validate([
             'title' => 'required|string|unique:blogs,title',
             'body' => 'required|string',
+            'categories' => 'required|array|min:1',
             'categories.*' => 'required|string',
         ]);
 
-        $data['user_id'] = Auth::user()->id;
-
-        Blog::create($data);
+        $blog = Blog::create([
+            'title' => $data['title'],
+            'body' => $data['body'],
+            'user_id' => Auth::user()->id
+        ]);
+        $blog->categories()->attach($data['categories']);
 
         return response()->json([
             'message' => 'Blog Created Successfully!'
