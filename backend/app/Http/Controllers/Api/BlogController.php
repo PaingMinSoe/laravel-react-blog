@@ -16,7 +16,7 @@ class BlogController extends Controller
     public function index(Request $request)
     {
         $blogs = Blog::when($request->has('limit'), function ($query) use ($request) {
-            return $query->limit($request->input('limit'))->get();
+            return $query->limit($request->input('limit'))->latest()->get();
         })
         // categories filter
         ->when($request->has('categories'), function($query) use ($request) {
