@@ -13,24 +13,25 @@ export default function Signup() {
         password: '',
         password_confirmation: '',
     });
-    const [errors, setErrors] = useState(null);
+    const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
-    const [animateError, setAnimateError] = useState(false);
 
     const navigate = useNavigate();
 
     const inputChange = (e, key) => {
-        e.preventDefault();
+        setErrors(prevErrors => {
+            return {...prevErrors, [key]: null}
+        });
+
         setCredentials(prevCredentials => {
             const newCredentials = {...prevCredentials, [key]: e.target.value};
             return newCredentials;
-        })
+        });
     }
 
     const handleSignup = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setAnimateError(false);
         try {
             await register(credentials);
             setCredentials({
@@ -44,13 +45,12 @@ export default function Signup() {
         } catch (err) {
             setLoading(false);
             setErrors(err.response.data.errors);
-            setAnimateError(true);
         }
     }
 
     return (
         <div className="bg-grey-lighter min-h-[calc(100vh-68px)] flex flex-col">
-            <div className="max-w-lg mx-auto flex-1 flex flex-col items-center justify-center px-2">
+            <div className="container max-w-lg mx-auto flex-1 flex flex-col items-center justify-center px-2">
                 <Form onSubmit={handleSignup} method="POST">
                     <div className="mb-4 space-y-2 text-center">
                         <h1 className="text-primary font-bold text-3xl">Sign up</h1>
@@ -64,8 +64,7 @@ export default function Signup() {
                         value={credentials.name}
                         onChange={e => inputChange(e, 'name')}
                         placeholder="Name"
-                        animateError={animateError}
-                        error={errors?.name}
+                        error={errors.name}
                     />
                     
                     <Input 
@@ -75,9 +74,8 @@ export default function Signup() {
                         name="email"
                         value={credentials.email}
                         onChange={e => inputChange(e, 'email')}
-                        placeholder="Email" 
-                        animateError={animateError}
-                        error={errors?.email}
+                        placeholder="Email"
+                        error={errors.email}
                     />
 
                     <Input 
@@ -88,8 +86,7 @@ export default function Signup() {
                         value={credentials.password}
                         onChange={e => inputChange(e, 'password')}
                         placeholder="Password" 
-                        animateError={animateError}
-                        error={errors?.password}
+                        error={errors.password}
                     />
 
                     <Input 
@@ -100,8 +97,7 @@ export default function Signup() {
                         value={credentials.password_confirmation}
                         onChange={e => inputChange(e, 'password_confirmation')}
                         placeholder="Password Confirmation"
-                        animateError={animateError}
-                        error={errors?.password_confirmation} 
+                        error={errors.password_confirmation} 
                     />
                     <button
                         type="submit"

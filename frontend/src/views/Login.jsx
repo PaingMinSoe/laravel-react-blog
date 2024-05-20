@@ -11,13 +11,15 @@ export default function Login() {
         email: '',
         password: '',
     });
-    const [errors, setErrors] = useState(null);
+    const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
-    const [animateError, setAnimateError] = useState(false);
     const navigate = useNavigate();
 
     const inputChange = (e, key) => {
-        e.preventDefault();
+        setErrors(prevErrors => {
+            return {...prevErrors, [key]: null}
+        });
+
         setCredentials(prevCredentials => {
             const newCredentials = {...prevCredentials, [key]: e.target.value};
             return newCredentials;
@@ -27,7 +29,6 @@ export default function Login() {
     const handleLogin = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setAnimateError(false);
         try {
             await login(credentials);
             setCredentials({
@@ -39,7 +40,6 @@ export default function Login() {
         } catch (err) {
             setLoading(false);
             setErrors(err.response.data.errors);
-            setAnimateError(true);
         }
     }
 
@@ -58,9 +58,8 @@ export default function Login() {
                         name="email"
                         value={credentials.email}
                         onChange={e => inputChange(e, 'email')}
-                        placeholder="Email" 
-                        animateError={animateError}
-                        error={errors?.email}
+                        placeholder="Email"
+                        error={errors.email}
                     />
 
                     <Input 
@@ -71,8 +70,7 @@ export default function Login() {
                         value={credentials.password}
                         onChange={e => inputChange(e, 'password')}
                         placeholder="Password" 
-                        animateError={animateError}
-                        error={errors?.password}
+                        error={errors.password}
                     />
                     <button
                         type="submit"

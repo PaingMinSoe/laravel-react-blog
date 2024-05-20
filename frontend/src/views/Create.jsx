@@ -12,9 +12,8 @@ export default function Create() {
     });
     const [categories, setCategories] = useState([]);
     const navigate = useNavigate();
-    const [errors, setErrors] = useState(null);
+    const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
-    const [animateError, setAnimateError] = useState(false);
 
     useEffect(() => {
         axiosClient.get('/categories')
@@ -25,7 +24,6 @@ export default function Create() {
     const handleCreateBlog = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setAnimateError(false);
         try {
             const response = await axiosClient.post('/blogs', inputs);
             console.log(response);
@@ -35,11 +33,14 @@ export default function Create() {
             console.error(err);
             setLoading(false);
             setErrors(err.response.data.errors);
-            setAnimateError(true);
         }
     }
 
     const inputChange = (e, key) => {
+        setErrors(prevErrors => {
+            return {...prevErrors, [key]: null}
+        });
+        
         setInputs(prevInputs => {
             if (key === 'categories' && e.target.checked) {
                 return {...prevInputs, categories: [...prevInputs.categories, e.target.value]}
@@ -68,8 +69,7 @@ export default function Create() {
                         value={inputs.title}
                         onChange={e => inputChange(e, 'title')}
                         placeholder="Title" 
-                        animateError={animateError}
-                        error={errors?.title}
+                        error={errors.title}
                     />
                     <Input 
                         type="textarea"
@@ -80,20 +80,19 @@ export default function Create() {
                         value={inputs.body}
                         onChange={e => inputChange(e, 'body')}
                         placeholder="Body" 
-                        animateError={animateError}
-                        error={errors?.body}
+                        error={errors.body}
                     />
                     <div className="group mb-4">
                         <label className="block group-focus-within:text-blue-600 text-gray-700 dark:text-gray-400 font-bold mb-2 transition ease-in-out duration-150" htmlFor="name">
                             Categories
                         </label>
-                        <div className="group mb-3">
+                        <div className={`group mb-3 ${errors.categories ? ' animate-shake border-red-600' : ''}`}>
                             {
                                 categories.map((item) => {
                                     return (
                                         <div className="inline-flex m-1" key={item.id}>
                                             <input onChange={e => inputChange(e, 'categories')} type="checkbox" id={item.title} value={item.id} className="peer hidden" />
-                                            <label htmlFor={item.title} className="select-none cursor-pointer text-sm rounded-lg border border-gray-200 px-2 py-1 font-bold text-gray-200 transition-colors duration-200 ease-in-out peer-checked:bg-blue-600 peer-checked:border-none peer-checked:text-gray-900">
+                                            <label htmlFor={item.title} className={`select-none cursor-pointer text-sm rounded-lg border border-gray-200 px-2 py-1 font-bold text-gray-200 transition-colors duration-200 ease-in-out peer-checked:bg-blue-600 peer-checked:border-none peer-checked:text-gray-900 ${errors?.categories ? 'text-red-500 border-red-500' : ''}`}>
                                                 {item.title}
                                             </label>
                                         </div>
@@ -102,7 +101,7 @@ export default function Create() {
                             }
                         </div>
                         {
-                            errors?.categories && <div className={`flex gap-1.5 items-center w-full text-red-500 ${animateError ? 'animate-shake' : ''}`}>
+                            errors.categories && <div className={`flex gap-1.5 items-center w-full text-red-500 ${errors.categories ? 'animate-shake' : ''}`}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
                             </svg>
