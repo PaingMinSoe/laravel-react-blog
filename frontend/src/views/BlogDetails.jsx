@@ -2,13 +2,14 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import DummyImage from '../assets/aang-redirects-lightning.jpeg';
+import { axiosClient } from '../services/axiosClient';
 
 export default function BlogDetails() {
   const [blog, setBlog] = useState(null);
   const { id } = useParams();
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/api/blogs/${id}`)
+    axiosClient.get(`/blogs/${id}`)
     .then(({data}) => {
       setBlog(data.data);
     })
@@ -24,7 +25,7 @@ export default function BlogDetails() {
           Back
         </button>
         <img src={DummyImage} className='w-[40%] rounded shadow-lg mb-8' alt="" />
-        <div>
+        <div className='w-full flex flex-col items-start'>
           <div className='mb-3'>
             <h1 className='text-4xl font-bold mb-3'>{blog.title}</h1>
             <p className='text-gray-500'>{blog.created_at}</p>

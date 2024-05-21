@@ -8,7 +8,7 @@ const AuthReducer = (state, action) => {
         case 'LOGIN':
             return {...state, user: action.payload.user, token: action.payload.token};
         case 'LOGOUT':
-            return {...state, user: null, token: null};
+            return {...state, user: {}, token: ''};
         case 'INIT':
             return {...state, user: action.payload.user};
         default:
@@ -16,15 +16,18 @@ const AuthReducer = (state, action) => {
     }
 }
             
-const AuthContext = createContext();
+const AuthContext = createContext({
+    user: {},
+    token: '',
+});
 export const AuthContextProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(AuthReducer, {user: null, token: localStorage.getItem('ACCESS_TOKEN'), isLoggedIn: false});
+    const [state, dispatch] = useReducer(AuthReducer, {user: {}, token: localStorage.getItem('ACCESS_TOKEN')});
     
     useEffect(() => {
         if (localStorage.getItem('ACCESS_TOKEN')) {
             axiosClient.get('/user')
             .then(response => {
-                const user = response.data;
+                const user = response.data.data;
                 dispatch({type: 'INIT', payload: { user }});
             });
         }
