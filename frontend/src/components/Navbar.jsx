@@ -106,9 +106,9 @@ export default function Navbar() {
                         </NavButton>
                     </li>
                     <li className='hidden md:block'>
-                        <button onClick={() => setIsDark(prevDark => !prevDark)} className='cursor-pointer bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 p-2.5 rounded-lg'>
+                        <NavButton onClick={() => setIsDark(prevDark => !prevDark)}>
                             {!isDark ? <img src={darkModeIcon} alt="" /> : <img src={lightModeIcon} alt="" />}
-                        </button>
+                        </NavButton>
                     </li>
                 </ul>
             </nav>
