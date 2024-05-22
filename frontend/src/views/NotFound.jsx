@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 export default function NotFound() {
     const navigate = useNavigate();
     return (
-        <div className="min-h-[calc(100vh-160px)] flex justify-center items-center ">
+        <div className="min-h-[calc(100vh-212px)] flex justify-center items-center ">
             <div className="text-center shadow-md p-10 border border-gray-600 rounded space-y-2">
                 <h1 className="text-3xl font-bold">404 Not Found :(((</h1>
                 <p>You can go back to where you come from tho...</p>

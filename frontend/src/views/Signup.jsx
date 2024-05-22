@@ -49,7 +49,7 @@ export default function Signup() {
     }
 
     return (
-        <div className="bg-grey-lighter min-h-[calc(100vh-68px)] flex flex-col">
+        <div className="bg-grey-lighter min-h-[calc(100vh-212px)] flex flex-col">
             <div className="container max-w-lg mx-auto flex-1 flex flex-col items-center justify-center px-2">
                 <Form onSubmit={handleSignup} method="POST">
                     <div className="mb-4 space-y-2 text-center">

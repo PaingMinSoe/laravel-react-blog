@@ -1,6 +1,7 @@
 import Navbar from "../components/Navbar";
 import { SwitchTransition, CSSTransition } from "react-transition-group";
 import { useLocation, useOutlet } from "react-router-dom";
+import Footer from "../components/Footer";
 
 export default function Layout() {
   const location = useLocation();
@@ -16,6 +17,7 @@ export default function Layout() {
           </div>
         </CSSTransition>
       </SwitchTransition>
+      <Footer />
     </>
   )
 }
