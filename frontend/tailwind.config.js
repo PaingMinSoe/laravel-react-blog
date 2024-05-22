@@ -7,6 +7,9 @@ export default {
   ],
   theme: {
     extend: {
+      transitionProperty: {
+        'max-height': 'max-height'
+      },
       animation: {
         shake: 'shake 0.35s',
         fadeIn: 'fadeIn 0.5s ease-in',

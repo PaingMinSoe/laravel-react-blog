@@ -63,9 +63,9 @@ export default function Navbar() {
                             Blogs
                         </NavLink>
                     </li>
-                    <li className="relative transiiton-all duration-500 z-10">
+                    <li className="relative z-10">
                         <img onClick={() => setIsOpenAvatarDropdown(prevNav => !prevNav)} src={user.profile_image ?? avatar} alt="" className='w-11 rounded-full' />
-                        <ul className={`absolute w-36 right-0 bg-white dark:bg-gray-800 ${isOpenAvatarDropdown ? ' max-h-48' : 'max-h-0 invisible'} flex flex-col transition-all duration-500 ease-in-out rounded shadow-lg mt-2 overflow-hidden`}>
+                        <ul className={`absolute w-36 right-0 bg-white dark:bg-gray-800 ${isOpenAvatarDropdown ? ' max-h-48 transition-max-height' : 'max-h-0 invisible'} flex flex-col transition-all duration-500 ease-in-out rounded shadow-lg mt-2 overflow-hidden`}>
                             {
                                 token && <>
                                     <li className="px-4 py-3 flex items-center">

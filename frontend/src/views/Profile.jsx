@@ -41,7 +41,7 @@ export default function Profile() {
         })
     }
 
-    const handleSignup = async (e) => {
+    const handleUpdateProfile = async (e) => {
         e.preventDefault();
         setLoading(true);
         console.log(credentials.profile_image);
@@ -96,7 +96,7 @@ export default function Profile() {
                 </div>
             )}
             {isEdit && 
-                <Form onSubmit={handleSignup} classes="grid grid-cols-2 gap-x-4 animate-fadeIn ease-in-out">
+                <Form onSubmit={handleUpdateProfile} classes="grid grid-cols-2 gap-x-4 animate-fadeIn ease-in-out">
                     <h1 className="mb-5 text-2xl font-bold">Edit Profile</h1>
                     <div className="group mb-3 col-span-2">
                         <label htmlFor="profile_image" className="inline-block cursor-pointer hover:opacity-25 relative">
