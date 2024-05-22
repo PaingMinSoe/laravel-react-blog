@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -33,7 +36,7 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
-            $user = Auth::user();
+            $user = new UserResource(Auth::user());
             $token = $user->createToken('blog token')->plainTextToken;
 
             return response(compact('user', 'token'));
@@ -60,8 +63,13 @@ class AuthController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email',
-            'profile_image' => 'image',
+            'password' => 'required|string|min:8',
+            'profile_image' => 'nullable|image',
         ]);
+
+        if (!Hash::check($request->password, Auth::user()->password)) {
+            throw ValidationException::withMessages(['password' => 'Password is incorrect!']);
+        }
 
         if ($request->has('profile_image')) {
             $filename = Carbon::now()->format('Y-m-d_H:i:s') . "_" . $request->file('profile_image')->getClientOriginalName();
