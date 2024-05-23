@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -71,7 +72,13 @@ class AuthController extends Controller
             throw ValidationException::withMessages(['password' => 'Password is incorrect!']);
         }
 
+
+
         if ($request->has('profile_image')) {
+            if (Auth::user()->profile_image) {
+                File::delete('profile_images/' . Auth::user()->profile_image);
+            }
+
             $filename = Carbon::now()->format('Y-m-d_H:i:s') . "_" . $request->file('profile_image')->getClientOriginalName();
             $request->file('profile_image')->move('profile_images/', $filename);
 

@@ -1,16 +1,20 @@
 import { useAuth } from "../contexts/AuthContext"
 import AvatarImage from "../assets/avatar.jpg"
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../components/Input";
 import Form from "../components/Form";
-import { axiosClient } from "../services/axiosClient";
+// import { axiosClient } from "../services/axiosClient";
+import { useDropzone } from "react-dropzone";
+// import { createPortal } from "react-dom";
+// import { CSSTransition } from "react-transition-group";
+// import CropImageModal from "../components/CropImageModal";
 
 export default function Profile() {
-    const { user } = useAuth();
+    const { user, updateProfile } = useAuth();
     const [isEdit, setIsEdit] = useState(false);
     const [preview, setPreview] = useState('');
-
+    // const [isCropImageModalOpen, setIsCropImageModalOpen] = useState(false);
     const [credentials, setCredentials] = useState({
         name: '',
         email: '',
@@ -19,8 +23,35 @@ export default function Profile() {
     });
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
+    // const [crop, setCrop] = useState({
+    //     unit: '%', // Can be 'px' or '%'
+    //     x: 25,
+    //     y: 25,
+    //     width: 150,
+    //     height: 150,
+    // });
+      
 
     const navigate = useNavigate();
+
+    const onDrop = useCallback(acceptedFiles => {
+        const file = new FileReader;
+
+        file.onload = () => {
+            console.log(file.result);
+            setPreview(file.result);
+        }
+
+        setCredentials(prevCredentials => {
+            return {...prevCredentials, profile_image: acceptedFiles[0]}
+        });
+
+        file.readAsDataURL(acceptedFiles[0]);
+
+        // setIsCropImageModalOpen(true);
+    }, []);
+
+    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
 
     useEffect(() => {
         setCredentials(prevCredentials => {
@@ -28,12 +59,6 @@ export default function Profile() {
         });
     }, [user]);
 
-    const handlePhotoChange = (e) => {
-        setCredentials(prevCredentials => {
-            return {...prevCredentials, profile_image: e.target.files[0]}
-        });
-        setPreview(URL.createObjectURL(e.target.files[0]));
-    }
 
     const inputChange = (e, key) => {
         setCredentials(prevCredentials => {
@@ -44,14 +69,13 @@ export default function Profile() {
     const handleUpdateProfile = async (e) => {
         e.preventDefault();
         setLoading(true);
-        console.log(credentials.profile_image);
         const formData = new FormData();
         formData.append('name', credentials.name);
         formData.append('email', credentials.email);
         formData.append('profile_image', credentials.profile_image);
         formData.append('password', credentials.password);
         try {
-            await axiosClient.post('/user/update', formData);
+            await updateProfile(formData);
             setCredentials({
                 name: '',
                 email: '',
@@ -68,6 +92,16 @@ export default function Profile() {
 
     return (
         <div className="w-full min-h-[calc(100vh-212px)]">
+            {/* {
+                createPortal(<CSSTransition
+                    in={isCropImageModalOpen}
+                    timeout={100}
+                    classNames="modal"
+                    unmountOnExit
+                >
+                    <CropImageModal imgSrc={preview} setPreview={setPreview} setIsOpen={setIsCropImageModalOpen} />
+                </CSSTransition>, document.querySelector('#modal'))
+            } */}
             <div className="py-5">
                 <button onClick={() => setIsEdit(prevEdit => !prevEdit)} className="inline-flex items-center px-4 py-2 font-semibold shadow rounded-md text-white bg-blue-600 hover:bg-blue-800 transition ease-in-out duration-150">{!isEdit ? "Update Profile" : "Cancel Edit"}</button>
             </div>
@@ -98,7 +132,34 @@ export default function Profile() {
             {isEdit && 
                 <Form onSubmit={handleUpdateProfile} classes="grid grid-cols-2 gap-x-4 animate-fadeIn ease-in-out">
                     <h1 className="mb-5 text-2xl font-bold">Edit Profile</h1>
-                    <div className="group mb-3 col-span-2">
+                    {/* {preview && <div>
+                        <ReactCrop 
+                            crop={crop} 
+                            circularCrop
+                            keepSelection
+                            aspect={1}
+                            minWidth={150}
+                            onChange={c => setCrop(c)}
+                        >
+                            <img src={preview} alt=""/>
+                        </ReactCrop>    
+                    </div>} */}
+                    {/* <button type="button" onClick={saveCropImage}>Crop</button> */}
+                    <div {...getRootProps()} className="group mb-3 col-span-2 w-80 h-80 relative cursor-pointer">
+                        <input {...getInputProps()} id="profile_image" />
+                        {
+                            isDragActive && <div className="absolute w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 rounded-full">
+                                <p className="text-lg">Drag and Drop Here.</p>
+                            </div>
+                        }
+                        <label htmlFor="profile_image" className="absolute bottom-0 p-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-800 hover:text-white hover:dark:bg-gray-100 hover:dark:text-black transition-colors duration-300 ease-in-out cursor-pointer rounded-full right-12 shadow-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                            </svg>
+                        </label>
+                        <img src={preview ? preview : user.profile_image ? user.profile_image : AvatarImage} className="w-80 h-80 rounded-full" alt={user.name} />
+                    </div>
+                    {/* <div className="group mb-3 col-span-2">
                         <label htmlFor="profile_image" className="inline-block cursor-pointer hover:opacity-25 relative">
                             {!preview && <div className="absolute w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 rounded-full">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-44 h-44">
@@ -108,7 +169,7 @@ export default function Profile() {
                             <img src={preview ? preview : user.profile_image ? user.profile_image : AvatarImage} className="w-80 h-80 rounded-full" alt={user.name} />
                             <input onChange={handlePhotoChange} type="file" name="profile_image" id="profile_image" className="hidden" />
                         </label>
-                    </div>
+                    </div> */}
                     <Input 
                         type="text"
                         label="Name"

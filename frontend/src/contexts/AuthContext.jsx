@@ -67,8 +67,20 @@ export const AuthContextProvider = ({ children }) => {
         dispatch({type: 'LOGIN', payload: {user, token}});
     }
 
+    const updateProfile = (formData) => {
+        axiosClient.post('/user/update', formData)
+        .then(() => {
+            axiosClient.get('/user')
+            .then(response => {
+                const user = response.data.data;
+                dispatch({type: 'INIT', payload: { user }});
+            });
+        });
+
+    }
+
     return (
-        <AuthContext.Provider value={{ ...state, login, logout, register }} >
+        <AuthContext.Provider value={{ ...state, login, logout, register, updateProfile }} >
             { children }
         </AuthContext.Provider>
     )
