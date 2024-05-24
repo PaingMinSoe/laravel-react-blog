@@ -4,17 +4,12 @@ import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../components/Input";
 import Form from "../components/Form";
-// import { axiosClient } from "../services/axiosClient";
 import { useDropzone } from "react-dropzone";
-// import { createPortal } from "react-dom";
-// import { CSSTransition } from "react-transition-group";
-// import CropImageModal from "../components/CropImageModal";
 
 export default function Profile() {
     const { user, updateProfile } = useAuth();
     const [isEdit, setIsEdit] = useState(false);
     const [preview, setPreview] = useState('');
-    // const [isCropImageModalOpen, setIsCropImageModalOpen] = useState(false);
     const [credentials, setCredentials] = useState({
         name: '',
         email: '',
@@ -23,13 +18,6 @@ export default function Profile() {
     });
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
-    // const [crop, setCrop] = useState({
-    //     unit: '%', // Can be 'px' or '%'
-    //     x: 25,
-    //     y: 25,
-    //     width: 150,
-    //     height: 150,
-    // });
       
 
     const navigate = useNavigate();
@@ -47,8 +35,6 @@ export default function Profile() {
         });
 
         file.readAsDataURL(acceptedFiles[0]);
-
-        // setIsCropImageModalOpen(true);
     }, []);
 
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
@@ -72,8 +58,10 @@ export default function Profile() {
         const formData = new FormData();
         formData.append('name', credentials.name);
         formData.append('email', credentials.email);
-        formData.append('profile_image', credentials.profile_image);
         formData.append('password', credentials.password);
+        if (credentials.profile_image) {
+            formData.append('profile_image', credentials.profile_image);
+        }
         try {
             await updateProfile(formData);
             setCredentials({
