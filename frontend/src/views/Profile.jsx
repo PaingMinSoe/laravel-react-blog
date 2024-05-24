@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 import Input from "../components/Input";
 import Form from "../components/Form";
 import { useDropzone } from "react-dropzone";
+import { createPortal } from "react-dom";
+import { CSSTransition } from "react-transition-group";
+import CropImageModal from "../components/CropImageModal";
 
 export default function Profile() {
     const { user, updateProfile } = useAuth();
@@ -18,7 +21,12 @@ export default function Profile() {
     });
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
+    const [isCropImageModalOpen, setIsCropImageModalOpen] = useState(false);
       
+
+    useEffect(() => {
+        console.log(credentials);
+    }, [credentials]);
 
     const navigate = useNavigate();
 
@@ -35,6 +43,8 @@ export default function Profile() {
         });
 
         file.readAsDataURL(acceptedFiles[0]);
+
+        setIsCropImageModalOpen(true);
     }, []);
 
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
@@ -50,6 +60,19 @@ export default function Profile() {
         setCredentials(prevCredentials => {
             return {...prevCredentials, [key]: e.target.value};
         })
+    }
+
+    const saveCroppedImage = (canvas) => {
+        const croppedImage = canvas.toDataURL('image/jpeg');
+
+        canvas.toBlob((blob) => {
+            const imageFile = new File([blob], credentials.profile_image.name);
+            setCredentials(prevCredentials => {
+                return {...prevCredentials, profile_image: imageFile}
+            });
+        }, 'image/jpeg');
+        
+        setPreview(croppedImage);
     }
 
     const handleUpdateProfile = async (e) => {
@@ -80,6 +103,16 @@ export default function Profile() {
 
     return (
         <div className="w-full min-h-[calc(100vh-212px)]">
+            {
+                createPortal(<CSSTransition
+                    in={isCropImageModalOpen}
+                    timeout={100}
+                    classNames="modal"
+                    unmountOnExit
+                >
+                    <CropImageModal imgSrc={preview} setPreview={setPreview} onCropComplete={saveCroppedImage} setIsOpen={setIsCropImageModalOpen} />
+                </CSSTransition>, document.querySelector('#modal'))
+            }
             <div className="py-5">
                 <button onClick={() => setIsEdit(prevEdit => !prevEdit)} className="inline-flex items-center px-4 py-2 font-semibold shadow rounded-md text-white bg-blue-600 hover:bg-blue-800 transition ease-in-out duration-150">{!isEdit ? "Update Profile" : "Cancel Edit"}</button>
             </div>
