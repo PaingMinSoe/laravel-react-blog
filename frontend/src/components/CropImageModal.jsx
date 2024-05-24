@@ -80,8 +80,11 @@ export default function CropImageModal({imgSrc, onCropComplete, setIsOpen}) {
                     >
                         <img src={imgSrc} onLoad={onImageLoad} alt="Crop" style={{ maxHeight: '500px' }} />
                     </ReactCrop>
-                <button onClick={saveCropImage} className='px-4 py-1.5 rounded-lg bg-blue-200 hover:bg-blue-400 dark:bg-blue-600 dark:hover:bg-blue-900 transition-all ease-in'>
-                    Search
+                <button onClick={saveCropImage} className='inline-flex px-4 py-1.5 font-semibold rounded-lg bg-blue-200 hover:bg-blue-400 dark:bg-blue-600 dark:hover:bg-blue-900 transition-all ease-in'>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="mr-1 size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 3.75H6A2.25 2.25 0 0 0 3.75 6v1.5M16.5 3.75H18A2.25 2.25 0 0 1 20.25 6v1.5m0 9V18A2.25 2.25 0 0 1 18 20.25h-1.5m-9 0H6A2.25 2.25 0 0 1 3.75 18v-1.5M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>
+                    Crop
                 </button>
             </div>
         </div>
