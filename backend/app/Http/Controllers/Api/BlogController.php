@@ -6,7 +6,9 @@ use App\Models\Blog;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BlogResource;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class BlogController extends Controller
 {
@@ -55,12 +57,19 @@ class BlogController extends Controller
             'body' => 'required|string',
             'categories' => 'required|array|min:1',
             'categories.*' => 'required|string',
+            'blog_image' => 'nullable|image',
         ]);
+
+        if ($request->has('blog_image')) {
+            $filename = Carbon::now()->format('Y-m-d_H:i:s') . "_" . $request->file('blog_image')->getClientOriginalName();
+            $request->file('blog_image')->move('blog_images/', $filename);
+        }
 
         $blog = Blog::create([
             'title' => $data['title'],
             'body' => $data['body'],
-            'user_id' => Auth::user()->id
+            'user_id' => Auth::user()->id,
+            'blog_image' => $filename,
         ]);
         $blog->categories()->attach($data['categories']);
 

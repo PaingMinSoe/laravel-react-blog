@@ -1,19 +1,37 @@
 import Form from "../components/Form";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Input from "../components/Input";
 import { useNavigate } from "react-router-dom";
 import { axiosClient } from "../services/axiosClient";
+import { useDropzone } from "react-dropzone";
 
 export default function Create() {
     const [inputs, setInputs] = useState({
         title: '',
         body: '',
         categories: [],
+        blog_image: null,
     });
+    const [preview, setPreview] = useState('');
     const [categories, setCategories] = useState([]);
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
+    const onDrop = useCallback(acceptedFiles => {
+        const file = new FileReader;
+        file.onload = () => {
+            setPreview(file.result);
+        }
+
+        setInputs(prevInputs => {
+            return {...prevInputs, blog_image: acceptedFiles[0]}
+        });
+
+        file.readAsDataURL(acceptedFiles[0]);
+    }, []);
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({onDrop});
+
+
 
     useEffect(() => {
         axiosClient.get('/categories')
@@ -25,7 +43,15 @@ export default function Create() {
         e.preventDefault();
         setLoading(true);
         try {
-            const response = await axiosClient.post('/blogs', inputs);
+            const formData = new FormData();
+            formData.append('title', inputs.title);
+            formData.append('body', inputs.body);
+            for (let category of inputs.categories) {
+                formData.append('categories[]', category);
+            }
+            formData.append('blog_image', inputs.blog_image);
+
+            const response = await axiosClient.post('/blogs', formData);
             console.log(response);
             setLoading(false);
             navigate('/');
@@ -91,8 +117,8 @@ export default function Create() {
                                 categories.map((item) => {
                                     return (
                                         <div className="inline-flex m-1" key={item.id}>
-                                            <input onChange={e => inputChange(e, 'categories')} type="checkbox" id={item.title} value={item.id} className="peer hidden" />
-                                            <label htmlFor={item.title} className={`select-none cursor-pointer text-sm rounded-lg border border-gray-200 px-2 py-1 font-bold text-gray-200 transition-colors duration-200 ease-in-out peer-checked:bg-blue-600 peer-checked:border-none peer-checked:text-gray-900 ${errors?.categories ? 'text-red-500 border-red-500' : ''}`}>
+                                            <input onChange={e => inputChange(e, 'categories')} type="checkbox" id={item.id} value={item.id} className="peer hidden" />
+                                            <label htmlFor={item.id} className={`select-none cursor-pointer text-sm rounded-lg border border-gray-200 px-2 py-1 font-bold text-gray-200 transition-colors duration-200 ease-in-out peer-checked:bg-blue-600 peer-checked:border-none peer-checked:text-gray-900 ${errors?.categories ? 'text-red-500 border-red-500' : ''}`}>
                                                 {item.title}
                                             </label>
                                         </div>
@@ -102,11 +128,37 @@ export default function Create() {
                         </div>
                         {
                             errors.categories && <div className={`flex gap-1.5 items-center w-full text-red-500 ${errors.categories ? 'animate-shake' : ''}`}>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
-                            </svg>
-                            {errors.categories[0]}
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                                </svg>
+                                {errors.categories[0]}
+                            </div>
+                        }
+                    </div>
+                    <div className="group mb-4">
+                        <div {...getRootProps()} className="group mb-3">
+                            <label className="block group-focus-within:text-blue-600 text-gray-700 dark:text-gray-400 font-bold mb-2 transition ease-in-out duration-150" htmlFor="blogImage">
+                                Blog Image
+                            </label>
+                            <input {...getInputProps()} id="blogImage" />
+                            <div className={`w-full min-h-[100px] h-64 border-4 rounded-md border-dashed flex flex-col items-center justify-center ${errors.blog_image ? 'animate-shake border-red-600' : 'border-gray-600'} ${isDragActive ? 'bg-gray-900 bg-opacity-75' : ''}`}>
+                                <p className={`${errors.blog_image ? 'text-red-500' : 'text-gray-500'} text-xl font-semibold`}>
+                                    {isDragActive ? 'Drag and Drop the image for blog here.' : 'Click or Drag and Drop the image for blog here.'}
+                                </p>
+                            </div>
                         </div>
+                        {
+                            errors.blog_image && <div className={`flex gap-1.5 items-center w-full text-red-500 ${errors.blog_image ? 'animate-shake' : ''}`}>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                                </svg>
+                                {errors.blog_image[0]}
+                            </div>
+                        }
+                    </div>
+                    <div className="mb-4">
+                        {
+                            preview && <img src={preview} alt="" />
                         }
                     </div>
                     <button

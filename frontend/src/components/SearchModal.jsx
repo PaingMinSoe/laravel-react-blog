@@ -21,7 +21,7 @@ export default function SearchModal({setIsOpen}) {
     }
 
     return (
-        <div className='w-screen h-screen left-0 right-0 top-0 z-10 bg-gray-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 fixed flex justify-center items-center' onClick={closeModal}>
+        <div className='w-screen h-screen left-0 right-0 top-0 z-10 bg-gray-900 backdrop-blur-sm bg-opacity-10 rounded-md fixed flex justify-center items-center' onClick={closeModal}>
             <div className=" w-96 md:w-[500px] flex justify-around items-center space-x-2 p-5 rounded-lg bg-white dark:bg-gray-800 shadow-lg" onClick={(e) => e.stopPropagation()}>
                 <div className="flex items-center">                    
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
