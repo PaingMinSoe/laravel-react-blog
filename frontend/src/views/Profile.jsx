@@ -66,7 +66,7 @@ export default function Profile() {
         const croppedImage = canvas.toDataURL('image/jpeg');
 
         canvas.toBlob((blob) => {
-            const imageFile = new File([blob], credentials.profile_image.name, {type: 'image/jpeg'});
+            const imageFile = new File([blob], credentials.profile_image.name);
             setCredentials(prevCredentials => {
                 return {...prevCredentials, profile_image: imageFile}
             });
