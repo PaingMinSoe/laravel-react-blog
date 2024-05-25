@@ -3,18 +3,10 @@ import "react-image-crop/dist/ReactCrop.css";
 import ReactCrop, { centerCrop, makeAspectCrop } from "react-image-crop";
 
 export default function CropImageModal({imgSrc, onCropComplete, setIsOpen}) {
-    const [crop, setCrop] = useState({aspect: 1});
+    const [crop, setCrop] = useState(null);
     const [imageRef, setImageRef] = useState(null);
 
     const saveCropImage = () => {
-        // const image = new Image();
-        // image.src = imgSrc;
-        // console.log(image);
-
-        // image.onload = () => {
-            
-        // };
-
         const canvas = document.createElement('canvas');
             const scaleX = imageRef.naturalWidth / imageRef.width;
             const scaleY = imageRef.naturalHeight / imageRef.height;
@@ -71,6 +63,11 @@ export default function CropImageModal({imgSrc, onCropComplete, setIsOpen}) {
     return (
         <div className='w-screen h-screen left-0 right-0 top-0 z-10 bg-gray-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 fixed flex justify-center items-center' onClick={closeModal}>
             <div className="max-w-4xl flex flex-col justify-around items-center space-y-2 p-5 rounded-lg bg-white dark:bg-gray-800 shadow-lg" onClick={(e) => e.stopPropagation()}>
+                    <button className="self-end mb-2 hover:text-gray-400" onClick={closeModal}>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                        </svg>
+                    </button>
                     <ReactCrop 
                         crop={crop} 
                         circularCrop

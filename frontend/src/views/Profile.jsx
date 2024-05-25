@@ -12,30 +12,30 @@ import CropImageModal from "../components/CropImageModal";
 export default function Profile() {
     const { user, updateProfile } = useAuth();
     const [isEdit, setIsEdit] = useState(false);
-    const [preview, setPreview] = useState('');
+    const [profileImage, setProfileImage] = useState({
+        originalImage: '',
+        croppedImage: ''
+    });
     const [credentials, setCredentials] = useState({
         name: '',
         email: '',
         password: '',
-        profile_image: '',
+        profile_image: null,
     });
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const [isCropImageModalOpen, setIsCropImageModalOpen] = useState(false);
-      
-
-    useEffect(() => {
-        console.log(credentials);
-    }, [credentials]);
 
     const navigate = useNavigate();
-
     const onDrop = useCallback(acceptedFiles => {
         const file = new FileReader;
 
         file.onload = () => {
             console.log(file.result);
-            setPreview(file.result);
+            setProfileImage({
+                originalImage: file.result,
+                croppedImage: file.result
+            });
         }
 
         setCredentials(prevCredentials => {
@@ -72,7 +72,9 @@ export default function Profile() {
             });
         }, 'image/jpeg');
         
-        setPreview(croppedImage);
+        setProfileImage(prevProfileImage => {
+            return {...prevProfileImage, croppedImage: croppedImage}
+        });
     }
 
     const handleUpdateProfile = async (e) => {
@@ -96,8 +98,8 @@ export default function Profile() {
             setLoading(false);
             navigate('/');
         } catch (err) {
-            setLoading(false);
             setErrors(err.response.data.errors);
+            setLoading(false);
         }
     }
 
@@ -110,7 +112,7 @@ export default function Profile() {
                     classNames="modal"
                     unmountOnExit
                 >
-                    <CropImageModal imgSrc={preview} setPreview={setPreview} onCropComplete={saveCroppedImage} setIsOpen={setIsCropImageModalOpen} />
+                    <CropImageModal imgSrc={profileImage.originalImage} onCropComplete={saveCroppedImage} setIsOpen={setIsCropImageModalOpen} />
                 </CSSTransition>, document.querySelector('#modal'))
             }
             <div className="py-5">
@@ -150,12 +152,15 @@ export default function Profile() {
                                 <p className="text-lg">Drag and Drop Here.</p>
                             </div>
                         }
-                        <label htmlFor="profile_image" className="absolute bottom-0 p-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-800 hover:text-white hover:dark:bg-gray-100 hover:dark:text-black transition-colors duration-300 ease-in-out cursor-pointer rounded-full right-12 shadow-md">
+                        {profileImage.croppedImage && <button type="button" onClick={(e) => {
+                            e.stopPropagation();
+                            setIsCropImageModalOpen(true);
+                        }} className="absolute bottom-0 p-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-800 hover:text-white hover:dark:bg-gray-100 hover:dark:text-black transition-colors duration-300 ease-in-out cursor-pointer rounded-full right-12 shadow-md" title="Crop Image">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 3.75H6A2.25 2.25 0 0 0 3.75 6v1.5M16.5 3.75H18A2.25 2.25 0 0 1 20.25 6v1.5m0 9V18A2.25 2.25 0 0 1 18 20.25h-1.5m-9 0H6A2.25 2.25 0 0 1 3.75 18v-1.5M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                             </svg>
-                        </label>
-                        <img src={preview ? preview : user.profile_image ? user.profile_image : AvatarImage} className="w-80 h-80 rounded-full" alt={user.name} />
+                        </button>}
+                        <img src={profileImage.croppedImage ? profileImage.croppedImage : user.profile_image ? user.profile_image : AvatarImage} className="w-80 h-80 rounded-full" alt={user.name} />
                     </div>
                     <Input 
                         type="text"
