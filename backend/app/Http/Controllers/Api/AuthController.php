@@ -79,7 +79,7 @@ class AuthController extends Controller
                 File::delete('profile_images/' . Auth::user()->profile_image);
             }
 
-            $filename = Carbon::now()->format('Y-m-d_H:i:s') . "_" . $request->file('profile_image')->getClientOriginalName();
+            $filename = Carbon::now()->format('YmdHis') . "." . $request->file('profile_image')->getClientOriginalExtension ();
             $request->file('profile_image')->move('profile_images/', $filename);
 
             Auth::user()->update([

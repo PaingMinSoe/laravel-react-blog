@@ -52,7 +52,6 @@ export default function Create() {
             formData.append('blog_image', inputs.blog_image);
 
             const response = await axiosClient.post('/blogs', formData);
-            console.log(response);
             setLoading(false);
             navigate('/');
         } catch (err) {
@@ -77,10 +76,6 @@ export default function Create() {
             return {...prevInputs, [key]: e.target.value};
         });
     }
-
-    useEffect(() => {
-        console.log(inputs);
-    }, [inputs]);
 
     return (
         <div className="bg-grey-lighter min-h-[calc(100vh-68px)] flex flex-col">

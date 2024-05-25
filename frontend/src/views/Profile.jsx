@@ -31,7 +31,6 @@ export default function Profile() {
         const file = new FileReader;
 
         file.onload = () => {
-            console.log(file.result);
             setProfileImage({
                 originalImage: file.result,
                 croppedImage: file.result
