@@ -23,6 +23,7 @@ class BlogResource extends JsonResource
             'categories' => $this->categories->select('id', 'title'),
             'blog_image' => asset('blog_images/' . $this->blog_image),
             'created_at' => $this->created_at->format('jS F Y'),
+            'comments' => $this->comments,
         ];
     }
 }

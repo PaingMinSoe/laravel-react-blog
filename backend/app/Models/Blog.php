@@ -25,4 +25,8 @@ class Blog extends Model
     public function categories() {
         return $this->belongsToMany(Category::class)->withTimestamps();
     }
+
+    public function comments() {
+        return $this->hasMany(Comment::class);
+    }
 }
