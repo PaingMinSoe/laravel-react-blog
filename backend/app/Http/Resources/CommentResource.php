@@ -5,9 +5,8 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BlogResource extends JsonResource
+class CommentResource extends JsonResource
 {
-
     /**
      * Transform the resource into an array.
      *
@@ -16,14 +15,13 @@ class BlogResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'title' => $this->title,
+            'user' => [
+                'name' => $this->user->name,
+                'profile_image' => $this->user->profile_image ? asset('profile_images/' . $this->user->profile_image) : null
+            ],
             'body' => $this->body,
-            'author' => $this->user->name,
-            'categories' => $this->categories->select('id', 'title'),
-            'blog_image' => asset('blog_images/' . $this->blog_image),
+            'parent_id' => $this->parent_id,
             'created_at' => $this->created_at->format('jS F Y'),
-            'comments' => CommentResource::collection($this->comments),
         ];
     }
 }

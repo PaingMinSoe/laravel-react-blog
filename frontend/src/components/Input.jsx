@@ -1,8 +1,8 @@
 export default function Input({ label, error, ...props }) {
-    const classes = `block w-full bg-gray-200 dark:focus:placeholder-blue-600 dark:bg-gray-800 border-2 rounded py-2 px-3 mb-3 leading-tight focus:outline-none transition ease-in-out duration-150 ${error ? 'placeholder-red-500 border-red-500' : 'text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-600 focus:border-blue-600 dark:focus:border-blue-600'} ${error ? 'animate-shake' : ''}`;
+    const classes = `block w-full bg-gray-200 dark:focus:placeholder-blue-600 dark:bg-gray-800 dark:autofill:bg-gray-800 border-2 rounded py-2 px-3 mb-3 leading-tight focus:outline-none transition ease-in-out duration-150 ${error ? 'placeholder-red-500 border-red-500' : 'text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-600 focus:border-blue-600 dark:focus:border-blue-600'} ${error ? 'animate-shake' : ''}`;
     return (
         <div className="group mb-4">
-            <label className="block group-focus-within:text-blue-600 text-gray-700 dark:text-gray-400 font-bold mb-2 transition ease-in-out duration-150" htmlFor="name">
+            <label className="block group-focus-within:text-blue-600 text-gray-700 dark:text-gray-400 font-bold mb-2 transition ease-in-out duration-150" htmlFor={props.id}>
                 {label}
             </label>
             {
